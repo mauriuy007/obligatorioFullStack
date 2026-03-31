@@ -1,0 +1,10 @@
+{
+  "name": "fullstack-obligatorio-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix server run dev",
+    "run": "npm --prefix server run run",
+    "start": "npm --prefix server run start",
+    "install:server": "npm --prefix server install"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "fullstack---obligatorio",
+  "version": "1.0.0",
+  "description": "obligatorio fullstack ORT",
+  "homepage": "https://github.com/mauriuy007/obligatorioFullStack#readme",
+  "bugs": {
+    "url": "https://github.com/mauriuy007/obligatorioFullStack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mauriuy007/obligatorioFullStack.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "run": "node src/index.js",
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@google/genai": "^1.47.0",
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
