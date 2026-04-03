@@ -1,7 +1,12 @@
 import { improveReview} from "../services.js/geminiService.js";
 
-export const createReview = (req, res) => {
-    res.json({ message: "Create a review" });
+export async function createReview(req, res) {
+    if (!req.body || !req.body.content) {
+        return res.status(400).json({ error: "Content is required" });
+    }
+    const { content } = req.body;
+    const improvedContent =  await improveReview(content);
+    res.json({ message: "Review created", improvedContent });
 }
 
 export const getReviews = (req, res) => {
