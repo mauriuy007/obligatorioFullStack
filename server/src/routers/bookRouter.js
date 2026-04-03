@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-const router = Router();
+const bookRouter = Router();
 
 import { getBooks } from "../controllers/bookController.js";
-import { validateHeaderMiddleware } from "../middleware/authMiddleware.js";
 
-router.get("/books", validateHeaderMiddleware, getBooks);
+bookRouter.get("/books", getBooks);
 
-export default router;
+
+export default bookRouter;
