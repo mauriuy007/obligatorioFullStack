@@ -11,3 +11,23 @@ export const createUser = async (userData) => {
     }   
 }
 
+export const getUserByEmail = async (email) => {
+    try {
+        const user = await UserSchema.findOne({ email });
+        return user;
+    } catch (error) {
+        console.error("Error fetching user by email:", error);
+        throw error;
+    }   
+}
+
+export const getUserById = async (id) => {
+    try {
+        const user = await UserSchema.findById(id);
+        return user;
+    } catch (error) {
+        console.error("Error fetching user by ID:", error);
+        throw error;
+    }   
+}
+
