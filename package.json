@@ -8,6 +8,7 @@
     "install:server": "npm --prefix server install"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
     "joi": "^18.1.2",
     "mongoose": "^9.3.3"
   }
