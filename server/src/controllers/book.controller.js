@@ -1,8 +1,4 @@
-// import {
-//     createBook as createBookInDB,
-//     getBookById as getBookByIdFromDB,
-//     getBooks as getBooksFromDB,
-// } from "../repositories/bookRepo.js";
+import { createBook } from "../services.js/book.service.v1.js";
 
 // export const getBooks = async (_req, res) => {
 //     try {
@@ -14,15 +10,18 @@
 //     }
 // };
 
-// export const createBook = async (req, res) => {
-//     try {
-//         const newBook = await createBookInDB(req.body);
-//         res.status(201).json(newBook);
-//     } catch (error) {
-//         console.error("Error creating book:", error);
-//         res.status(500).json({ error: "Internal server error" });
-//     }
-// };
+export const crearLibro = async (req, res) => {
+    try {
+        const { titulo, calificacion, comentario } = req.body;
+        const idUsuario = req.idUsuario;
+
+        const nuevoLibro = await createBook({ titulo, calificacion, comentario }, idUsuario);
+        res.status(201).json(nuevoLibro);
+    } catch (error) {
+        console.error("Error creating book:", error);
+        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+    }
+};
 
 // export const getBookById = async (req, res) => {
 //     try {

@@ -1,25 +1,10 @@
 import Joi from "joi";
 
-const BookSchema = {
-    titulo: Joi.string().trim().min(1).required(),
-    autor: Joi.string().trim().min(1).required(),
-    descripcion: Joi.string().trim().min(1).required(),
-    estado: estadoSchema,
-    calificacion: Joi.number().min(0).max(5),
-    comentario: Joi.string().trim().allow(""),
-    idUsuario: objectIdSchema.required()
-};
-
+const bookSchema = Joi.object({
+    titulo: Joi.string().trim().min(1).required()
+});
 
 export const validateCreateBook = (book) =>
-    BookSchema.validate(book);
+    bookSchema.validate(book, { abortEarly: false, stripUnknown: true });
 
 export { validateCreateBook as validateBook };
-
-
-
-
-
-
-
-
