@@ -13,7 +13,7 @@ const authMiddleware = (req,res, next) => {
         req.idUsuario = tokenEnviado.idUsuario
         next()
     } catch (e){
-        res.status(401).json({ message: "Tojen inválido" })
+        res.status(401).json({ message: "Token inválido" })
     }
 }
 

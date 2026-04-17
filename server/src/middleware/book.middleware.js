@@ -1,0 +1,1 @@
+import {validateBook} from "../validators/bookValidator.js";

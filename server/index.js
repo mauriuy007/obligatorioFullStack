@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { conectarBD } from "./src/config/db.js"; 
 import { authRouter } from "./src/routes/auth.router.v1.js";
 import { authMiddleware } from "./src/middleware/auth.middleware.js";
+import { bookRouterV1 } from "./src/routes/book.router.v1.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.use(express.json());
 
 //Rutas públicas
 app.use("/v1", authRouter)
+app.use("/v1/books", bookRouterV1);
 
   
 //Rutas privadas
