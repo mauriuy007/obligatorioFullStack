@@ -1,6 +1,7 @@
 import express from "express";
 import { crearLibro, obtenerLibrosPorUsuario } from "../controllers/book.controller.js";
 import { validarCrearLibroMiddleware } from "../middleware/book.middleware.js";
+import { obtenerLibrosPorId } from "../controllers/book.controller.js";
 
 const bookRouterV1 = express.Router();
 

@@ -1,6 +1,7 @@
 import { Libro } from "../models/book.model.js";
 import { InvalidBookError } from "../errors/InvalidBookError.js";
 import { getBookByName } from "./googleBooksService.js";
+import { BookNotFoundError } from "../errors/BookNotFoundError.js";
 
 export const createBook = async ({ titulo,calificacion,comentario }, idUsuario) => {
     try {
@@ -29,3 +30,10 @@ export const createBook = async ({ titulo,calificacion,comentario }, idUsuario) 
 export const getBooksByUserId = async (idUsuario) => {
        return await Libro.find({ idUsuario });
 }
+
+export const getBookById = async (bookId,userId) => {
+    const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
+    if (!book) {
+        throw new BookNotFoundError();
+    }
+    return book;

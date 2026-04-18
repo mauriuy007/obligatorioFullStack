@@ -1,5 +1,6 @@
 import { createBook } from "../services.js/book.service.v1.js";
 import { getBooksByUserId } from "../services.js/book.service.v1.js";
+import { getBookById } from "../services.js/book.service.v1.js";
 
 // export const getBooks = async (_req, res) => {
 //     try {
@@ -39,18 +40,14 @@ export const obtenerLibrosPorUsuario = async (req, res) => {
     }
 };
 
-// export const getBookById = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const book = await getBookByIdFromDB(id);
-
-//         if (!book) {
-//             return res.status(404).json({ error: "Book not found" });
-//         }
-
-//         res.status(200).json(book);
-//     } catch (error) {
-//         console.error("Error fetching book by ID:", error);
-//         res.status(500).json({ error: "Internal server error" });
-//     }
-// };
+export const obtenerLibrosPorId = async (req, res) => {
+    try {
+        const bookId = req.params.id;
+        const userId = req.idUsuario;
+        const libro = await getBookById(bookId, userId);
+        res.status(200).json(libro);
+    } catch (error) {
+        console.error("Error fetching book by ID:", error);
+        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+    }
+};
