@@ -12,7 +12,7 @@ export const createBook = async ({ titulo,calificacion,comentario }, idUsuario) 
 
         const newBook = {
             titulo: book.title ?? titulo,
-            autor: book.authors?.join(", ") || "Autor desconocido",
+            autor: book.authors.join(", ") || "Autor desconocido",
             descripcion: book.description ?? "Sin descripcion",
             estado: "Leido",
             calificacion: calificacion,
