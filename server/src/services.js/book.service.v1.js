@@ -25,3 +25,7 @@ export const createBook = async ({ titulo,calificacion,comentario }, idUsuario) 
         throw new InvalidBookError();
     }
 };
+
+export const getBooksByUserId = async (idUsuario) => {
+       return await Libro.find({ idUsuario });
+}
