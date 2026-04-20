@@ -55,14 +55,14 @@ export const updateBook = async (bookId, userId, updateData) => {
         throw error; 
     }
 }
-const deleteBook = async (bookId, userId) => {
+export const deleteBook = async (bookId, userId) => {
     const book = await Libro.findOneAndDelete({ _id: bookId, idUsuario: userId })
     if (!book) {
         throw new BookNotFoundError();
     }
 }
 
-const generateRecommendations = async (userId,bookId) => {
+export const generateRecommendations = async (userId,bookId) => {
     const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
     if (!book) {
         throw new BookNotFoundError();
@@ -70,3 +70,8 @@ const generateRecommendations = async (userId,bookId) => {
     const recommendations = await getRecommendationsBasedOnBook(book);
     return recommendations;
 }  
+
+export const getBooksByGenre = async (genero, userId) => {
+    return await Libro.find({ genero: genero, idUsuario: userId });
+
+}

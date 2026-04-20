@@ -4,6 +4,7 @@ import { getBookById } from "../services.js/book.service.v1.js";
 import { updateBook } from "../services.js/book.service.v1.js";
 import { deleteBook } from "../services.js/book.service.v1.js";
 import { generateRecommendations } from "../services.js/recommendation.service.v1.js";
+import { getBooksByGenre } from "../services.js/book.service.v1.js";
 
 export const crearLibro = async (req, res) => {
     try {
@@ -80,5 +81,19 @@ export const sugerirLibros = async (req, res) => {
     }
     catch(error) {
         res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+    }
 }
+
+export const obtenerLibrosPorGenero = async (req, res) => {
+    try {
+        const genero = req.params.genero;
+        const userId = req.idUsuario;
+        const libros = await getBooksByGenre(genero, userId);
+        if (!libros || libros.length === 0) {
+            return res.status(204).json({ message: "No books found for this genre" });
+        }
+        res.status(200).json(libros);
+    }catch(error) {
+        res.status(error.code || 500).json({ error: error.message || "Internal server error" });    
+    }
 }
