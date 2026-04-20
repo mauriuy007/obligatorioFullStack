@@ -1,10 +1,17 @@
-// import Joi from "joi";
-// import { Usuario } from "../models/user.model.js";
+import Joi from "joi";
+import { Usuario } from "../models/user.model.js"
 
-// export const validateUser = (Usuario) => {
-//     const schema = Joi.object({
-//         nombre: Joi.string().min(3).max(30).required(),
-//         mail: Joi.string().email().required(),
-//         password: Joi.string().min(6).required(),
-//     });
-// }
+const UserSchema = Joi.object({
+    nombre: Joi.string().trim().min(2).max(30).required(),
+    apellido: Joi.string().trim().min(2).max(30).required(),
+    nombreUsuario: Joi.alphanum().trim().min(3).max(15).required(),
+    mail: Joi.string().email({
+        minDomainSegments: 2,
+    }).required(),
+    password: Joi.string().pattern(new RegExp('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_\-])[A-Za-z\d@$!%*?&.#_\-]{8,}$/')).min(8).max(20).required(),
+    rol: Joi.string().required(),
+    plan: Joi.string().required()
+})
+
+export const validateCreateUser = (user) =>
+    UserSchema.validate(user, { abortEarly: true });
