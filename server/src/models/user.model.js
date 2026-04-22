@@ -6,8 +6,13 @@ const userSchema = new mongoose.Schema({
     nombreUsuario: { type: String, required: true, unique: true },
     mail: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    rol: { type: String, required: true },
-    plan: { type: String, required: true }
+    rol: {
+        type: String,
+        required: true,
+        enum: ["Basico", "Premium", "Admin"],
+        default: "Basico"
+    },
+    plan: { type: String, required: true, default: "Basico" }
 },{
     timestamps: true,
     collection: "usuarios"

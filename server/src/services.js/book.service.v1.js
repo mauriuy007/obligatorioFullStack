@@ -33,6 +33,10 @@ export const getBooksByUserId = async (idUsuario) => {
        return await Libro.find({ idUsuario });
 }
 
+export const countBooksByUserId = async (idUsuario) => {
+    return await Libro.countDocuments({ idUsuario });
+}
+
 export const getBookById = async (bookId,userId) => {
     const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
     if (!book) {

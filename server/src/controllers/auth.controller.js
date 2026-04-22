@@ -1,8 +1,8 @@
-import { login, registrarUsuario } from "../services/auth.service.v1.js"
+import { login as loginService, registrarUsuario } from "../services.js/auth.service.v1.js"
 
 const login = async (req, res) => {
     try{
-        const token = await login(req.body)
+        const token = await loginService(req.body)
         res.status(200).json(token)
     }catch(e){
         res.status(401).json({ message: e.message })

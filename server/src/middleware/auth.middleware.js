@@ -10,7 +10,8 @@ const authMiddleware = (req,res, next) => {
 
     try{
         const tokenEnviado = jwt.verify(token, process.env.JWT_SECRET_KEY)
-        req.idUsuario = tokenEnviado.idUsuario
+        req.idUsuario = tokenEnviado.idUsu
+        req.rolUsuario = tokenEnviado.rolUsu
         next()
     } catch (e){
         res.status(401).json({ message: "Token inválido" })

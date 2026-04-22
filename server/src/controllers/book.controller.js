@@ -3,13 +3,26 @@ import { getBooksByUserId } from "../services.js/book.service.v1.js";
 import { getBookById } from "../services.js/book.service.v1.js";
 import { updateBook } from "../services.js/book.service.v1.js";
 import { deleteBook } from "../services.js/book.service.v1.js";
-import { generateRecommendations } from "../services.js/recommendation.service.v1.js";
+import { generateRecommendations } from "../services.js/book.service.v1.js";
 import { getBooksByGenre } from "../services.js/book.service.v1.js";
+import { countBooksByUserId } from "../services.js/book.service.v1.js";
+import { getUserById } from "../services.js/user.service.v1.js";
 
 export const crearLibro = async (req, res) => {
     try {
         const { titulo, calificacion, comentario } = req.body;
         const idUsuario = req.idUsuario;
+        const usuario = await getUserById(idUsuario);
+
+        if (usuario.rol === "Basico") {
+            const cantidadLibros = await countBooksByUserId(idUsuario);
+
+            if (cantidadLibros >= 4) {
+                return res.status(403).json({
+                    error: "Los usuarios Basico solo pueden registrar hasta 4 libros"
+                });
+            }
+        }
 
         const nuevoLibro = await createBook({ titulo, calificacion, comentario }, idUsuario);
         res.status(201).json(nuevoLibro);
@@ -47,12 +60,12 @@ export const obtenerLibrosPorId = async (req, res) => {
     }
 };
 
-    export const modificarLibro = async (req, res) => {
+export const modificarLibro = async (req, res) => {
     try {
         const bookId = req.params.id;
         const userId = req.idUsuario;
         const { titulo, calificacion, comentario } = req.body;
-        const libroActualizado = await updateBook(bookId, { titulo, calificacion, comentario }, userId);
+        const libroActualizado = await updateBook(bookId, userId, { titulo, calificacion, comentario });
         res.status(200).json(libroActualizado);
     }
     catch(error) {
