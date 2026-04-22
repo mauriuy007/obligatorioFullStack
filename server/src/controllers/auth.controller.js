@@ -1,4 +1,4 @@
-import { login as loginService, registrarUsuario } from "../services.js/auth.service.v1.js"
+import { dologin as loginService, registrarUsuario } from "../services/auth.service.v1.js"
 
 const login = async (req, res) => {
     try{

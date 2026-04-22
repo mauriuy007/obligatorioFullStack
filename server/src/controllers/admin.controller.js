@@ -1,4 +1,4 @@
-import { getAdminData } from "../services.js/admin.service.v1.js";
+import { getAdminData } from "../services/admin.service.v1.js";
 
 const obtenerAdmin = async (req, res) => {
     try {

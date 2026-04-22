@@ -4,7 +4,7 @@ import { Usuario } from "../models/user.model.js"
 import { usuarioDto } from "../dtos/usuario.dto.js"
 import { validateCreateUser } from "../validators/userValidator.js"
 
-const login = async ({usuario, contra}) => {
+const dologin = async ({usuario, contra}) => {
     const user = await Usuario.findOne({ nombreUsuario: usuario })
     if (user){
         const contraValida = await bcrypt.compare(contra, user.password)
@@ -54,4 +54,4 @@ const registrarUsuario = async ({ nombreUsuario, nombre, apellido, password, mai
     return devolverUsuario;
 }
 
-export { login, registrarUsuario }
+export { dologin, registrarUsuario }

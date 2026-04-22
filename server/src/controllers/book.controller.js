@@ -1,12 +1,12 @@
-import { createBook } from "../services.js/book.service.v1.js";
-import { getBooksByUserId } from "../services.js/book.service.v1.js";
-import { getBookById } from "../services.js/book.service.v1.js";
-import { updateBook } from "../services.js/book.service.v1.js";
-import { deleteBook } from "../services.js/book.service.v1.js";
-import { generateRecommendations } from "../services.js/book.service.v1.js";
-import { getBooksByGenre } from "../services.js/book.service.v1.js";
-import { countBooksByUserId } from "../services.js/book.service.v1.js";
-import { getUserById } from "../services.js/user.service.v1.js";
+import { createBook } from "../services/book.service.v1.js";
+import { getBooksByUserId } from "../services/book.service.v1.js";
+import { getBookById } from "../services/book.service.v1.js";
+import { updateBook } from "../services/book.service.v1.js";
+import { deleteBook } from "../services/book.service.v1.js";
+import { generateRecommendations } from "../services/book.service.v1.js";
+import { getBooksByGenre } from "../services/book.service.v1.js";
+import { countBooksByUserId } from "../services/book.service.v1.js";
+import { getUserById } from "../services/user.service.v1.js";
 
 export const crearLibro = async (req, res) => {
     try {

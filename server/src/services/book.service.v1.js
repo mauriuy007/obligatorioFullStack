@@ -2,7 +2,7 @@ import { Libro } from "../models/book.model.js";
 import { InvalidBookError } from "../errors/InvalidBookError.js";
 import { getBookByName } from "./googleBooksService.js";
 import { BookNotFoundError } from "../errors/BookNotFoundError.js";
-import { getRecommendationsBasedOnBook } from "./recommendation.service.js";
+import { suggestBook } from "./geminiService.js";
 
 
 export const createBook = async ({ titulo, genero, estado, calificacion,comentario }, idUsuario) => {
