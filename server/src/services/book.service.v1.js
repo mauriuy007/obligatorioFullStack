@@ -73,7 +73,7 @@ export const generateRecommendations = async (userId,bookId) => {
     if (!book) {
         throw new BookNotFoundError();
     }
-    const recommendations = await getRecommendationsBasedOnBook(book);
+    const recommendations = await suggestBook(book);
     return recommendations;
 }  
 

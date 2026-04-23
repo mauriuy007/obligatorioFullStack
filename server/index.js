@@ -19,7 +19,7 @@ app.use("/v1", authRouter)
 //Rutas privadas
 app.use(authMiddleware)
 app.use("/v1/books", bookRouterV1);
-app.use("/admin", adminAuthorizationMiddleware, adminRouterV1);
+app.use("/v1/admin", adminAuthorizationMiddleware, adminRouterV1);
 
 //Conectar a la base de datos
 conectarBD();

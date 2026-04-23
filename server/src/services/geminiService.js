@@ -50,4 +50,3 @@ export async function suggestBook(bookData) {
   });
   console.log(response.text);
 }
-
