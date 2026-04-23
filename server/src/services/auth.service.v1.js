@@ -4,13 +4,13 @@ import { Usuario } from "../models/user.model.js"
 import { usuarioDto } from "../dtos/usuario.dto.js"
 import { validateCreateUser } from "../validators/userValidator.js"
 
-const dologin = async ({usuario, contra}) => {
-    const user = await Usuario.findOne({ nombreUsuario: usuario })
+const dologin = async ({ nombreUsuario, password }) => {
+    const user = await Usuario.findOne({ nombreUsuario: nombreUsuario })
     if (user){
-        const contraValida = await bcrypt.compare(contra, user.password)
+        const contraValida = await bcrypt.compare(password, user.password)
         if(contraValida){
             const token = jwt.sign(
-                { idUsu: user.id, rolUsu: user.rol },
+                { idUsu: user._id, rolUsu: user.rol },
                 process.env.JWT_SECRET_KEY,
                 { expiresIn: "1h" }
             )

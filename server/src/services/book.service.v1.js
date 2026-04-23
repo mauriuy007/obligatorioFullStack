@@ -5,19 +5,21 @@ import { BookNotFoundError } from "../errors/BookNotFoundError.js";
 import { suggestBook } from "./geminiService.js";
 
 
-export const createBook = async ({ titulo, genero, estado, calificacion,comentario }, idUsuario) => {
+export const createBook = async ({ titulo, autor, genero, descripcion, estado, calificacion, comentario }, idUsuario) => {
     try {
-        const book = await getBookByName(titulo);
+        //const book = await getBookByName(titulo);
 
-        if (!book) {
-            throw new InvalidBookError();
-        }
+        // if (!book) {
+        //     throw new InvalidBookError();
+        // }
+
+        //book.authors.join(", ")
 
         const newBook = {
-            titulo: book.title ?? titulo,
-            autor: book.authors.join(", ") || "Autor desconocido",
-            genero: genero,
-            descripcion: book.description ?? "Sin descripcion",
+            titulo,
+            autor: autor || "Autor desconocido",
+            genero,
+            descripcion: descripcion || "Sin descripcion",
             estado: estado|| "Pendiente" ,
             calificacion: calificacion || null,
             comentario: comentario || null,

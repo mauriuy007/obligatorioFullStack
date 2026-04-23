@@ -15,7 +15,6 @@ app.use(express.json());
 
 //Rutas públicas
 app.use("/v1", authRouter)
-
   
 //Rutas privadas
 app.use(authMiddleware)
