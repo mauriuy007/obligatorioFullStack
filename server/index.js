@@ -20,6 +20,7 @@ app.use("/v1", authRouter)
 app.use(authMiddleware)
 app.use("/v1/books", bookRouterV1);
 app.use("/v1/admin", adminAuthorizationMiddleware, adminRouterV1);
+//app.use("/v2/reviews", reviewsMiddleware, reviewsRouterV1);
 
 //Conectar a la base de datos
 conectarBD();

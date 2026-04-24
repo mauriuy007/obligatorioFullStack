@@ -5,9 +5,7 @@ const bookSchema = Joi.object({
     autor: Joi.string().trim().min(2).max(70),
     genero: Joi.string().trim().min(1).max(30).required(),
     descripcion: Joi.string().trim().min(30).max(2000), 
-    estado: Joi.string().valid("", "Pendiente", "Leyendo", "Leido"),
-    calificacion: Joi.number().integer().min(1).max(5).optional(),
-    comentario: Joi.string().trim().max(200).valid("")
+    estado: Joi.string().valid("", "Pendiente", "Leyendo", "Leido")
 });
 
 export const validateCreateBook = (book) =>

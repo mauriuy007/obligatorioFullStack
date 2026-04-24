@@ -5,9 +5,12 @@ const bookSchema = new mongoose.Schema({
     autor: { type: String, required: true },
     genero: { type: String, required: true },
     descripcion: { type: String, required: true },
-    estado: { type: String, required: true },
-    calificacion: { type: Number },
-    comentario: { type: String },
+    estado: { 
+        type: String, 
+        required: true,
+        enum: ["Pendiente", "Leyendo", "Leido"],
+        default: "Pendiente"
+     },
     idUsuario: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Usuario",

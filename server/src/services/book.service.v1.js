@@ -5,7 +5,7 @@ import { BookNotFoundError } from "../errors/BookNotFoundError.js";
 import { suggestBook } from "./geminiService.js";
 
 
-export const createBook = async ({ titulo, autor, genero, descripcion, estado, calificacion, comentario }, idUsuario) => {
+export const createBook = async ({ titulo, autor, genero, descripcion, estado }, idUsuario) => {
     try {
         //const book = await getBookByName(titulo);
 
@@ -21,8 +21,6 @@ export const createBook = async ({ titulo, autor, genero, descripcion, estado, c
             genero,
             descripcion: descripcion || "Sin descripcion",
             estado: estado|| "Pendiente" ,
-            calificacion: calificacion || null,
-            comentario: comentario || null,
             idUsuario
         };
         return await Libro.create(newBook);

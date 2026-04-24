@@ -10,7 +10,7 @@ import { getUserById } from "../services/user.service.v1.js";
 
 export const crearLibro = async (req, res) => {
     try {
-        const { titulo, autor, genero, descripcion, estado, calificacion, comentario } = req.body;
+        const { titulo, autor, genero, descripcion, estado} = req.body;
         const idUsuario = req.idUsuario;
         const usuario = await getUserById(idUsuario);
 
@@ -24,7 +24,7 @@ export const crearLibro = async (req, res) => {
             }
         }
 
-        const nuevoLibro = await createBook({ titulo, autor, genero, descripcion, estado, calificacion, comentario }, idUsuario);
+        const nuevoLibro = await createBook({ titulo, autor, genero, descripcion, estado }, idUsuario);
         res.status(201).json(nuevoLibro);
     } catch (error) {
         console.error("Error creating book:", error);
@@ -64,8 +64,8 @@ export const modificarLibro = async (req, res) => {
     try {
         const bookId = req.params.id;
         const userId = req.idUsuario;
-        const { titulo, autor, genero, descripcion, estado, calificacion, comentario } = req.body;
-        const libroActualizado = await updateBook(bookId, userId, { titulo, autor, genero, descripcion, estado, calificacion, comentario });
+        const { titulo, autor, genero, descripcion, estado } = req.body;
+        const libroActualizado = await updateBook(bookId, userId, { titulo, autor, genero, descripcion, estado });
         res.status(200).json(libroActualizado);
     }
     catch(error) {
