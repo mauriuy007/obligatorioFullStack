@@ -1,3 +1,5 @@
+import { GoogleBooksServiceError } from "../errors/GoogleBooksServiceError.js";
+
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
 
 const GOOGLE_BOOKS_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
@@ -9,15 +11,22 @@ export const getBookByName = async (bookName) => {
 
     const searchParams = new URLSearchParams({
         q: `intitle:${bookName}`,
-        key: apiKey,
         maxResults: "1",
         printType: "books",
     });
 
+    if (apiKey) {
+        searchParams.set("key", apiKey);
+    }
+
     const response = await fetch(`${GOOGLE_BOOKS_BASE_URL}?${searchParams.toString()}`);
 
     if (!response.ok) {
-        throw new Error(`Google Books API error: ${response.status}`);
+        if (response.status === 429) {
+            throw new GoogleBooksServiceError("Google Books quota exceeded");
+        }
+
+        throw new GoogleBooksServiceError(`Google Books API error: ${response.status}`);
     }
 
     const data = await response.json();

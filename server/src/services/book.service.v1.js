@@ -6,27 +6,25 @@ import { suggestBook } from "./geminiService.js";
 
 
 export const createBook = async ({ titulo, autor, genero, descripcion, estado }, idUsuario) => {
-    try {
-        //const book = await getBookByName(titulo);
+    const book = await getBookByName(titulo);
 
-        // if (!book) {
-        //     throw new InvalidBookError();
-        // }
-
-        //book.authors.join(", ")
-
-        const newBook = {
-            titulo,
-            autor: autor || "Autor desconocido",
-            genero,
-            descripcion: descripcion || "Sin descripcion",
-            estado: estado|| "Pendiente" ,
-            idUsuario
-        };
-        return await Libro.create(newBook);
-    } catch (error) {
+    if (!book) {
         throw new InvalidBookError();
     }
+
+    const authorFromGoogleBooks = book.authors?.join(", ");
+    const genreFromGoogleBooks = book.categories?.[0];
+    const descriptionFromGoogleBooks = book.description;
+
+    const newBook = {
+        titulo,
+        autor: autor || authorFromGoogleBooks || "Autor desconocido",
+        genero: genero || genreFromGoogleBooks || "Sin genero",
+        descripcion: descripcion || descriptionFromGoogleBooks || "Sin descripcion",
+        estado: estado|| "Pendiente" ,
+        idUsuario
+    };
+    return await Libro.create(newBook);
 };
 
 export const getBooksByUserId = async (idUsuario) => {

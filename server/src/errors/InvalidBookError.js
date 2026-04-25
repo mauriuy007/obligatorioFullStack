@@ -1,5 +1,6 @@
 export class InvalidBookError extends Error {
     constructor() {
-        super("Book not found", { code: 404 });
+        super("Book not found");
+        this.code = 404;
     }
 }
