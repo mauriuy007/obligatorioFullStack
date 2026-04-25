@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema({
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
+    imageUrl: { type: String, default: null },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Usuario",
@@ -18,6 +19,6 @@ const reviewSchema = new mongoose.Schema({
     collection: "reviews"
 })
 
-const review = mongoose.model("Review", reviewSchema)
+const Review = mongoose.model("Review", reviewSchema)
 
 export { Review }
