@@ -1,4 +1,5 @@
 import { dologin as loginService, registrarUsuario } from "../services/auth.service.v1.js"
+import { upgradeUserToPremium } from "../services/user.service.v1.js";
 
 const login = async (req, res) => {
     try{
@@ -18,4 +19,13 @@ const registrar = async (req, res) => {
     }
 }
 
-export { login, registrar }
+const pasarAPremium = async (req, res) => {
+    try {
+        const usuarioActualizado = await upgradeUserToPremium(req.idUsuario);
+        res.status(200).json(usuarioActualizado);
+    } catch (e) {
+        res.status(404).json({ message: e.message });
+    }
+}
+
+export { login, registrar, pasarAPremium }
