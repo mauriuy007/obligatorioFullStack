@@ -7,10 +7,7 @@ import { suggestBook } from "./geminiService.js";
 
 export const createBook = async ({ titulo, autor, genero, descripcion, estado }, idUsuario) => {
     const book = await getBookByName(titulo);
-
-    if (!book) {
-        throw new InvalidBookError();
-    }
+    console.log(book)
 
     const authorFromGoogleBooks = book.authors?.join(", ");
     const genreFromGoogleBooks = book.categories?.[0];
@@ -103,8 +100,3 @@ export const generateRecommendations = async (userId,bookId) => {
     const recommendations = await suggestBook(book);
     return recommendations;
 }  
-
-export const getBooksByGenre = async (genero, userId) => {
-    return await Libro.find({ genero: genero, idUsuario: userId });
-
-}
