@@ -58,7 +58,7 @@ export const getBooksByUserId = async (limit, page, titulo, autor, genero, estad
 
         return { books, limit, total, totalPages: Math.ceil(total/limit) }
     }catch(error){
-        throw new Error("Error fetching users books")
+        throw new BookNotFoundError();
     }
 }
 

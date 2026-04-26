@@ -1,4 +1,5 @@
 import { GoogleBooksServiceError } from "../errors/google.books.service.error.js";
+import { InvalidBookError } from "../errors/Invalid.book.error.js";
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
 
@@ -6,7 +7,7 @@ const GOOGLE_BOOKS_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
 
 export const getBookByName = async (bookName) => {
     if (!bookName) {
-        throw new Error("Book name is required");
+        throw new InvalidBookError();
     }
 
     const searchParams = new URLSearchParams({

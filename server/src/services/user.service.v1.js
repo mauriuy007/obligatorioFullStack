@@ -1,11 +1,12 @@
 import { Usuario } from "../models/user.model.js";
 import { usuarioDto } from "../dtos/usuario.dto.js";
+import { invalidUserDataError } from "../errors/invalid.user.data.error.js";
 
 export const getUserById = async (idUsuario) => {
     const usuario = await Usuario.findById(idUsuario);
 
     if (!usuario) {
-        throw new Error("Usuario no encontrado");
+        throw new invalidUserDataError();
     }
 
     return usuario;
@@ -15,7 +16,7 @@ export const upgradeUserToPremium = async (idUsuario) => {
     const usuario = await Usuario.findById(idUsuario);
 
     if (!usuario) {
-        throw new Error("Usuario no encontrado");
+        throw new invalidUserDataError();
     }
 
     if (usuario.rol === "Admin") {
