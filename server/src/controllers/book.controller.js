@@ -38,7 +38,7 @@ export const obtenerLibrosPorUsuario = async (req, res) => {
         const idUsuario = req.idUsuario;
         const libros = await getBooksByUserId(idUsuario);
         if (!libros || libros.length === 0) {
-            return res.status(204).json({ message: "No books found for this user" });
+            return res.status(200).json({ message: "Error fetching books for user" });
         }
         res.status(200).json(libros);
     }
