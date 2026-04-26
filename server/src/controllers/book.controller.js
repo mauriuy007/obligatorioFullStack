@@ -34,12 +34,13 @@ export const crearLibro = async (req, res) => {
 
 export const obtenerLibrosPorUsuario = async (req, res) => {
     try {
-        // Preguntar si if va acá o en service
         const idUsuario = req.idUsuario;
-        const libros = await getBooksByUserId(idUsuario);
-        if (!libros || libros.length === 0) {
-            return res.status(200).json({ message: "Error fetching books for user" });
+        const {limit, page, titulo, autor, genero, estado } = req.query
+        if(!limit || !page){
+            res.status(400).json({ message: "page and limit are required" })
+            return
         }
+        const libros = await getBooksByUserId(limit, page, titulo, autor, genero, estado, idUsuario);
         res.status(200).json(libros);
     }
     catch (error) {

@@ -27,8 +27,39 @@ export const createBook = async ({ titulo, autor, genero, descripcion, estado },
     return await Libro.create(newBook);
 };
 
-export const getBooksByUserId = async (idUsuario) => {
-       return await Libro.find({ idUsuario });
+export const getBooksByUserId = async (limit, page, titulo, autor, genero, estado, idUsuario) => {
+    const query = { idUsuario: idUsuario }
+    const total = await Libro.countDocuments(query)
+    page = Number(page)
+    limit = Number(limit)
+    const skip = (page - 1) * limit
+
+    if(titulo){
+        query.titulo = { $regex: titulo, $options: "i" }
+    }
+
+    if(autor){
+        query.autor = { $regex: autor, $options: "i" }
+    }
+
+    if(genero){
+        query.genero = { $regex: genero, $options: "i" }
+    }
+
+    if(estado){
+        query.estado = { $regex: estado, $options: "i"  }
+    }
+
+    try{
+        const books = await Libro.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+
+        return { books, limit, total, totalPages: Math.ceil(total/limit) }
+    }catch(error){
+        throw new Error("Error fetching users books")
+    }
 }
 
 export const countBooksByUserId = async (idUsuario) => {
