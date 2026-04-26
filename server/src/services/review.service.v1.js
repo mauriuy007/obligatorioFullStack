@@ -85,3 +85,11 @@ export const uploadReviewImage = async (image, reviewId, userId) => {
     review.imageUrl = result.secure_url;
     return await review.save();
 };
+
+export const eliminarReview = async (reviewId, userId, bookId) => {
+    const review = await Review.findOneAndDelete({ _id: reviewId, userId:userId });
+    console.log(review, reviewId, userId);
+    if(!review){
+        throw new ReviewNotFoundError();
+    }
+}
