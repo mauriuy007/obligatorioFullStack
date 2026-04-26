@@ -33,14 +33,32 @@ export const createReview = async ({ rating, comment }, bookId, userId) => {
     return await Review.create(newReview);
 };
 
-export const getReviewsByBookId = async (bookId, userId) => {
+export const getReviewsByBookId = async (bookId, userId, limit, page, rating) => {
     const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
-
     if (!book) {
         throw new BookNotFoundError();
     }
 
-    return await Review.find({ bookId, userId });
+    const query = { bookId : bookId }
+    const total= await Review.countDocuments(query)
+    page = Number(page)
+    limit = Number(limit)
+    const skip = (page -1 ) * limit
+
+    if(rating){
+        query.rating = Number(rating)
+    }
+
+    try{
+        const reviews = await Review.find(query)
+        .sort({ createdAt: -1})
+        .skip(skip)
+        .limit(limit);
+
+        return { reviews, limit, total, totalPages: Math.ceil(total/limit) }
+    }catch (error){
+        throw new Error("error fetching books")
+    }
 };
 
 export const uploadReviewImage = async (image, reviewId, userId) => {

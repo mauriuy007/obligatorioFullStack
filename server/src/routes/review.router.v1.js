@@ -4,8 +4,8 @@ import { uploadReviewImageMiddleware, validarCrearReviewMiddleware } from "../mi
 
 const reviewRouterV1 = express.Router();
 
-reviewRouterV1.post("/libros/:bookId", validarCrearReviewMiddleware, crearReview);
-reviewRouterV1.get("/libros/:bookId", obtenerReviewsPorLibro);
+reviewRouterV1.get("/reviews/:bookId", obtenerReviewsPorLibro);
+reviewRouterV1.post("/reviews/:bookId", validarCrearReviewMiddleware, crearReview);
 reviewRouterV1.post("/:id/imagen", uploadReviewImageMiddleware, agregarImagenReview);
 
 export { reviewRouterV1 };

@@ -17,7 +17,14 @@ export const obtenerReviewsPorLibro = async (req, res) => {
     try {
         const userId = req.idUsuario;
         const bookId = req.params.bookId;
-        const reviews = await getReviewsByBookId(bookId, userId);
+        const { limit, page, rating } = req.query
+
+        if(!limit || !page){
+            res.status(400).json({ message: "page and limit are required" })
+            return
+        }
+
+        const reviews = await getReviewsByBookId(bookId, userId, limit, page, rating);
 
         if (!reviews || reviews.length === 0) {
             return res.status(204).json({ message: "No reviews found for this book" });
