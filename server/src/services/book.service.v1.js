@@ -1,7 +1,7 @@
 import { Libro } from "../models/book.model.js";
-import { InvalidBookError } from "../errors/InvalidBookError.js";
+import { InvalidBookError } from "../errors/invalid.book.error.js";
 import { getBookByName } from "./googleBooksService.js";
-import { BookNotFoundError } from "../errors/BookNotFoundError.js";
+import { BookNotFoundError } from "../errors/book.not.found.error.js";
 import { suggestBook } from "./geminiService.js";
 
 

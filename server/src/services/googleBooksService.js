@@ -1,4 +1,4 @@
-import { GoogleBooksServiceError } from "../errors/GoogleBooksServiceError.js";
+import { GoogleBooksServiceError } from "../errors/google.books.service.error.js";
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
 

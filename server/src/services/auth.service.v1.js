@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 import { Usuario } from "../models/user.model.js"
 import { usuarioDto } from "../dtos/usuario.dto.js"
-import { validateCreateUser } from "../validators/userValidator.js"
+import { validateCreateUser } from "../validators/user.validator.js"
+import { invalidUserDataError } from "../errors/invalid.user.data.error.js"
 
 const dologin = async ({ nombreUsuario, password }) => {
     const user = await Usuario.findOne({ nombreUsuario: nombreUsuario })
@@ -18,7 +19,7 @@ const dologin = async ({ nombreUsuario, password }) => {
         }
     }
 
-    throw new Error("No autorizado")
+    throw new invalidUserDataError();
 }
 
 const registrarUsuario = async ({ nombreUsuario, nombre, apellido, password, mail, rol, plan }) => {

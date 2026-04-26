@@ -1,9 +1,9 @@
 import { v2 as cloudinary } from "cloudinary";
 import { Review } from "../models/review.model.js";
 import { Libro } from "../models/book.model.js";
-import { BookNotFoundError } from "../errors/BookNotFoundError.js";
-import { ReviewNotFoundError } from "../errors/ReviewNotFoundError.js";
-import { ImageUploadError } from "../errors/ImageUploadError.js";
+import { BookNotFoundError } from "../errors/book.not.found.error.js";
+import { ReviewNotFoundError } from "../errors/review.not.foundError.js"
+import { ImageUploadError } from "../errors/image.upload.error.js";
 
 const configureCloudinary = () => {
     cloudinary.config({

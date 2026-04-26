@@ -1,4 +1,4 @@
-import { validateCreateBook } from "../validators/bookValidator.js";
+import { validateCreateBook } from "../validators/book.validator.js";
 
 const validarCrearLibroMiddleware = (req, res, next) => {
     const { error } = validateCreateBook(req.body);
