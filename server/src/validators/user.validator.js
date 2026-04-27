@@ -8,8 +8,8 @@ const UserSchema = Joi.object({
         minDomainSegments: 2,
     }).required(),
     password: Joi.string().min(8).max(20).required(),
-    rol: Joi.string().valid("Basico", "Premium", "Admin").default("Basico"),
-    plan: Joi.string().trim().min(2).max(30).default("Basico")
+    rol: Joi.string().valid("Usuario", "Admin").default("Usuario"),
+    plan: Joi.string().trim().min(2).max(30).default("Plus")
 })
 
 export const validateCreateUser = (user) =>

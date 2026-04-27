@@ -9,10 +9,10 @@ const userSchema = new mongoose.Schema({
     rol: {
         type: String,
         required: true,
-        enum: ["Basico", "Premium", "Admin"],
-        default: "Basico"
+        enum: ["Usuario", "Admin"],
+        default: "Usuario"
     },
-    plan: { type: String, required: true, default: "Basico" }
+    plan: { type: String, required: true, default: "Plus" }
 },{
     timestamps: true,
     collection: "usuarios"

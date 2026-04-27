@@ -23,7 +23,6 @@ export const upgradeUserToPremium = async (idUsuario) => {
         return usuarioDto(usuario);
     }
 
-    usuario.rol = "Premium";
     usuario.plan = "Premium";
     await usuario.save();
 
