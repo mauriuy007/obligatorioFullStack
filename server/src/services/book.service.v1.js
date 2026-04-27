@@ -3,6 +3,7 @@ import { InvalidBookError } from "../errors/invalid.book.error.js";
 import { getBookByName } from "./googleBooksService.js";
 import { BookNotFoundError } from "../errors/book.not.found.error.js";
 import { suggestBook } from "./geminiService.js";
+import { libroDto } from "../dtos/book.dto.js";
 
 
 export const createBook = async ({ titulo, autor, genero, descripcion, estado }, idUsuario) => {
@@ -21,7 +22,12 @@ export const createBook = async ({ titulo, autor, genero, descripcion, estado },
         estado: estado|| "Pendiente" ,
         idUsuario
     };
-    return await Libro.create(newBook);
+
+
+    const guardarLibro = await Libro.create(newBook);
+    const devolverLibro = libroDto(guardarLibro); 
+
+    return devolverLibro;
 };
 
 export const getBooksByUserId = async (limit, page, titulo, autor, genero, estado, idUsuario) => {

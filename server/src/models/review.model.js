@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
     rating: { type: Number, required: true },
-    comment: { type: String, required: true },
+    comment: { type: String },
     imageUrl: { type: String, default: null },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

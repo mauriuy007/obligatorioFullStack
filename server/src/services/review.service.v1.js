@@ -4,6 +4,7 @@ import { Libro } from "../models/book.model.js";
 import { BookNotFoundError } from "../errors/book.not.found.error.js";
 import { ReviewNotFoundError } from "../errors/review.not.foundError.js"
 import { ImageUploadError } from "../errors/image.upload.error.js";
+import { reviewDto } from "../dtos/review.dto.js";
 
 const configureCloudinary = () => {
     cloudinary.config({
@@ -30,7 +31,10 @@ export const createReview = async ({ rating, comment }, bookId, userId) => {
         imageUrl: null
     };
 
-    return await Review.create(newReview);
+    const guardarReview = await Review.create(newReview);
+    const devolverReview = reviewDto(guardarReview);
+
+    return devolverReview;
 };
 
 export const getReviewsByBookId = async (bookId, userId, limit, page, rating) => {

@@ -13,7 +13,7 @@ export const crearLibro = async (req, res) => {
         const idUsuario = req.idUsuario;
         const usuario = await getUserById(idUsuario);
 
-        if (usuario.rol === "Basico") {
+        if (usuario.plan === "Plus") {
             const cantidadLibros = await countBooksByUserId(idUsuario);
 
             if (cantidadLibros >= 4) {
