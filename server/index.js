@@ -23,8 +23,8 @@ app.use("/v1", authRouter)
   
 //Rutas privadas
 app.use(authMiddleware);
-app.use("/v1/books", bookRouterV1);
-app.use("/v1/review", reviewRouterV1);
+app.use("/v1", bookRouterV1);
+app.use("/v1", reviewRouterV1);
 app.use("/v1/user", userRouterV1);
 app.use("/v1/admin", adminAuthorizationMiddleware, adminRouterV1);
 

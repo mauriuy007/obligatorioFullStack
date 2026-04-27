@@ -75,9 +75,7 @@ export const uploadReviewImage = async (image, reviewId, userId) => {
     let result;
 
     try {
-        result = await cloudinaryClient.uploader.upload(uri, {
-            folder: "reviews"
-        });
+        result = await cloudinaryClient.uploader.upload(uri);
     } catch (error) {
         throw new ImageUploadError();
     }
