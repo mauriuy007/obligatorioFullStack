@@ -9,7 +9,7 @@ export const crearReview = async (req, res) => {
 
         res.status(201).json(review);
     } catch (error) {
-        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 };
 
@@ -26,13 +26,15 @@ export const obtenerReviewsPorLibro = async (req, res) => {
 
         const reviews = await getReviewsByBookId(bookId, userId, limit, page, rating);
 
+        /*
         if (!reviews || reviews.length === 0) {
             return res.status(204).json({ message: "No reviews found for this book" });
         }
+        */
 
         res.status(200).json(reviews);
     } catch (error) {
-        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 };
 
@@ -55,7 +57,7 @@ export const agregarImagenReview = async (req, res) => {
         res.status(200).json(review);
     } catch (error) {
         console.log(error);
-        res.status(error.code || 500).json({ message: "error al subir imagen" });
+        res.status(error.code || 500).json({ error: error.message });
     }
 };
 
@@ -66,6 +68,6 @@ export const borrarReview = async (req, res) => {
         await eliminarReview(reviewId, userId);
         res.status(204).send();
     }catch(error){
-        res.status(error.code || 500).json({ error: error.message || "internal server error"});
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor"});
     }
 }

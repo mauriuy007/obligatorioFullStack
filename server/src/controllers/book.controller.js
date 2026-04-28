@@ -18,7 +18,7 @@ export const crearLibro = async (req, res) => {
 
             if (cantidadLibros >= 4) {
                 return res.status(403).json({
-                    error: "Los usuarios Basico solo pueden registrar hasta 4 libros"
+                    error: "Los usuarios Plus solo pueden registrar hasta 4 libros"
                 });
             }
         }
@@ -27,7 +27,7 @@ export const crearLibro = async (req, res) => {
         res.status(201).json(nuevoLibro);
     } catch (error) {
         console.error("Error creating book:", error);
-        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 };
 
@@ -44,7 +44,7 @@ export const obtenerLibrosPorUsuario = async (req, res) => {
     }
     catch (error) {
         console.error("Error fetching books for user:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(error.code || 500).json({ error: e.message || "Error del lado del servidor" });
     }
 };
 
@@ -56,7 +56,7 @@ export const obtenerLibrosPorId = async (req, res) => {
         res.status(200).json(libro);
     } catch (error) {
         console.error("Error fetching book by ID:", error);
-        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 };
 
@@ -69,7 +69,7 @@ export const modificarLibro = async (req, res) => {
         res.status(200).json(libroActualizado);
     }
     catch(error) {
-        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 };
 
@@ -82,7 +82,7 @@ export const eliminarLibro = async (req, res) => {
         res.status(204).send();
     }
     catch(error) {
-        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     } 
 };
 
@@ -94,6 +94,6 @@ export const sugerirLibros = async (req, res) => {
         res.status(200).json({ recommendation: recomendaciones} );
     }
     catch(error) {
-        res.status(error.code || 500).json({ error: error.message || "Internal server error" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 }

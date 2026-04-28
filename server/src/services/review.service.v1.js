@@ -61,7 +61,7 @@ export const getReviewsByBookId = async (bookId, userId, limit, page, rating) =>
 
         return { reviews, limit, total, totalPages: Math.ceil(total/limit) }
     }catch (error){
-        throw new Error("error fetching books")
+        throw BookNotFoundError();
     }
 };
 

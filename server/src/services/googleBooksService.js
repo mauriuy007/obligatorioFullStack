@@ -24,7 +24,7 @@ export const getBookByName = async (bookName) => {
 
     if (!response.ok) {
         if (response.status === 429) {
-            throw new GoogleBooksServiceError("Google Books quota exceeded");
+            throw new GoogleBooksServiceError();
         }
 
         throw new GoogleBooksServiceError(`Google Books API error: ${response.status}`);

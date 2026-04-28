@@ -1,6 +1,6 @@
 class invalidUserDataError extends Error {
     constructor() {
-        super("Invalid user data");
+        super("La información enviada no es válida");
     }
 }
 

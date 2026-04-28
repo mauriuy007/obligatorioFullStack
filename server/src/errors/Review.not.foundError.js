@@ -1,6 +1,6 @@
 export class ReviewNotFoundError extends Error {
     constructor() {
-        super("Review not found");
+        super("No se encontró la review");
         this.code = 404;
     }
 }

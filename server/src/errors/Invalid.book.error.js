@@ -1,6 +1,6 @@
 export class InvalidBookError extends Error {
     constructor() {
-        super("Invalid data. Please check");
+        super("Revise la información enviada");
         this.code = 404;
     }
 }
