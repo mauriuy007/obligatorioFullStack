@@ -2,7 +2,7 @@ import { Usuario } from "../models/user.model.js";
 import { usuarioDto } from "../dtos/usuario.dto.js";
 import { invalidUserDataError } from "../errors/invalid.user.data.error.js";
 
-export const getUserById = async (idUsuario) => {
+export const obtenerUsuarioPorId = async (idUsuario) => {
     const usuario = await Usuario.findById(idUsuario);
 
     if (!usuario) {
@@ -12,7 +12,7 @@ export const getUserById = async (idUsuario) => {
     return usuario;
 };
 
-export const upgradeUserToPremium = async (idUsuario) => {
+export const cambiarPlan = async (idUsuario) => {
     const usuario = await Usuario.findById(idUsuario);
 
     if (!usuario) {

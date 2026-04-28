@@ -1,41 +1,41 @@
 import { Libro } from "../models/book.model.js";
 import { InvalidBookError } from "../errors/invalid.book.error.js";
-import { getBookByName } from "./googleBooksService.js";
+import { obtenerLibroPorNombre } from "./googleBooksService.js";
 import { BookNotFoundError } from "../errors/book.not.found.error.js";
-import { suggestBook } from "./geminiService.js";
+import { sugerirLibro } from "./geminiService.js";
 import { libroDto } from "../dtos/book.dto.js";
 
 
-export const createBook = async ({ titulo, autor, genero, descripcion, estado }, idUsuario) => {
-    const book = await getBookByName(titulo);
-    console.log(book)
+export const crearLibroService = async ({ titulo, autor, genero, descripcion, estado }, idUsuario) => {
+    const libro = await obtenerLibroPorNombre(titulo);
+    console.log(libro)
 
-    const authorFromGoogleBooks = book.authors?.join(", ");
-    const genreFromGoogleBooks = book.categories?.[0];
-    const descriptionFromGoogleBooks = book.description;
+    const autorGoogleBooks = libro.authors?.join(", ");
+    const generoGoogleBooks = libro.categories?.[0];
+    const descGoogleBooks = libro.description;
 
-    const newBook = {
+    const nuevoLibro = {
         titulo,
-        autor: autor || authorFromGoogleBooks || "Autor desconocido",
-        genero: genero || genreFromGoogleBooks || "Sin genero",
-        descripcion: descripcion || descriptionFromGoogleBooks || "Sin descripcion",
+        autor: autor || autorGoogleBooks || "Autor desconocido",
+        genero: genero || generoGoogleBooks || "Sin genero",
+        descripcion: descripcion || descGoogleBooks || "Sin descripcion",
         estado: estado|| "Pendiente" ,
         idUsuario
     };
 
 
-    const guardarLibro = await Libro.create(newBook);
+    const guardarLibro = await Libro.create(nuevoLibro);
     const devolverLibro = libroDto(guardarLibro); 
 
     return devolverLibro;
 };
 
-export const getBooksByUserId = async (limit, page, titulo, autor, genero, estado, idUsuario) => {
+export const obtenerLibrosService = async (limite, pagina, titulo, autor, genero, estado, idUsuario) => {
     const query = { idUsuario: idUsuario }
     const total = await Libro.countDocuments(query)
-    page = Number(page)
-    limit = Number(limit)
-    const skip = (page - 1) * limit
+    pagina = Number(pagina)
+    limite = Number(limite)
+    const skip = (pagina - 1) * limite
 
     if(titulo){
         query.titulo = { $regex: titulo, $options: "i" }
@@ -54,35 +54,35 @@ export const getBooksByUserId = async (limit, page, titulo, autor, genero, estad
     }
 
     try{
-        const book = await Libro.find(query)
+        const libro = await Libro.find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(limit);
+        .limit(limite);
 
-        return { book, limit, total, totalPages: Math.ceil(total/limit) }
+        return { libro, limite, total, totalPaginas: Math.ceil(total/limite) }
     }catch(error){
         throw new BookNotFoundError();
     }
 }
 
-export const countBooksByUserId = async (idUsuario) => {
+export const contadorLibrosPorUsuario = async (idUsuario) => {
     return await Libro.countDocuments({ idUsuario });
 }
 
-export const getBookById = async (bookId,userId) => {
-    const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
-    const libroEncontrado = libroDto(book)
-    if (!book) {
+export const obtenerLibrosPorIdService = async (idLibro,idUsu) => {
+    const libro = await Libro.findOne({ _id: idLibro, idUsuario: idUsu });
+    if (!libro) {
         throw new BookNotFoundError();
     }
+    const libroEncontrado = libroDto(libro)
     return libroEncontrado;
 }
 
-export const updateBook = async (bookId, userId, updateData) => {
+export const actualizarLibro = async (idLibro, idUsu, nuevaData) => {
     try {
         const book = await Libro.findOneAndUpdate(
-            { _id: bookId, idUsuario: userId },
-            updateData,
+            { _id: idLibro, idUsuario: idUsu },
+            nuevaData,
             {returnDocument: "after",runValidator:true}
         );
         if (!book) {
@@ -92,18 +92,18 @@ export const updateBook = async (bookId, userId, updateData) => {
         throw error; 
     }
 }
-export const deleteBook = async (bookId, userId) => {
-    const book = await Libro.findOneAndDelete({ _id: bookId, idUsuario: userId })
+export const eliminarLibroService = async (idLibro, idUsu) => {
+    const book = await Libro.findOneAndDelete({ _id: idLibro, idUsuario: idUsu })
     if (!book) {
         throw new BookNotFoundError();
     }
 }
 
-export const generateRecommendations = async (userId,bookId) => {
-    const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
-    if (!book) {
+export const generarRecomendacion = async (idUsu, idLibro) => {
+    const libro = await Libro.findOne({ _id: idLibro, idUsuario: idUsu });
+    if (!libro) {
         throw new BookNotFoundError();
     }
-    const recommendations = await suggestBook(book);
-    return recommendations;
+    const sugerencia = await sugerirLibro(libro);
+    return sugerencia;
 }  

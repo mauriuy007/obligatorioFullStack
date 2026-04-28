@@ -17,7 +17,7 @@ const UserSchema = Joi.object({
         "string.email": "Debe ingresar un email válido",
         "string.empty": "Debe ingresar un email"
     }),
-    password: Joi.string().min(8).max(20).required().messages({
+    contrasena: Joi.string().min(8).max(20).required().messages({
         "string.empty": "Debe ingresar una contraseña",
         "string.min": "La contraseña debe tener al menos 8 caracteres",
         "string.max": "La contraseña no puede superar los 20 caracteres"

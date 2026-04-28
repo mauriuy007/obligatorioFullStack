@@ -16,38 +16,37 @@ const configureCloudinary = () => {
     return cloudinary;
 };
 
-export const createReview = async ({ rating, comment }, bookId, userId) => {
-    const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
-
-    if (!book) {
+export const crearReviewService = async ({ calificacion, comentario }, idLibro, idUsu) => {
+    const libro = await Libro.findOne({ _id: idLibro, idUsuario: idUsu });
+    if (!libro) {
         throw new BookNotFoundError();
     }
 
-    const newReview = {
-        rating,
-        comment,
-        userId,
-        bookId,
-        imageUrl: null
+    const nuevaReview = {
+        calificacion,
+        comentario,
+        idUsuario: idUsu,
+        idLibro,
+        urlImagen: null
     };
 
-    const guardarReview = await Review.create(newReview);
+    const guardarReview = await Review.create(nuevaReview);
     const devolverReview = reviewDto(guardarReview);
 
     return devolverReview;
 };
 
-export const getReviewsByBookId = async (bookId, userId, limit, page, rating) => {
-    const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
-    if (!book) {
+export const obtenerReviewPorLibro = async (idLibro, idUsu, limite, pagina, rating) => {
+    const libro = await Libro.findOne({ _id: idLibro, idUsuario: idUsu });
+    if (!libro) {
         throw new BookNotFoundError();
     }
 
-    const query = { bookId : bookId }
+    const query = { idLibro : idLibro }
     const total= await Review.countDocuments(query)
-    page = Number(page)
-    limit = Number(limit)
-    const skip = (page -1 ) * limit
+    pagina = Number(pagina)
+    limite = Number(limite)
+    const skip = (pagina -1 ) * limite
 
     if(rating){
         query.rating = Number(rating)
@@ -57,40 +56,39 @@ export const getReviewsByBookId = async (bookId, userId, limit, page, rating) =>
         const reviews = await Review.find(query)
         .sort({ createdAt: -1})
         .skip(skip)
-        .limit(limit);
+        .limit(limite);
 
-        return { reviews, limit, total, totalPages: Math.ceil(total/limit) }
+        return { reviews, limite, total, totalPaginas: Math.ceil(total/limite) }
     }catch (error){
-        throw BookNotFoundError();
+        throw new ReviewNotFoundError();
     }
 };
 
-export const uploadReviewImage = async (image, reviewId, userId) => {
-    const review = await Review.findOne({ _id: reviewId, userId });
+export const agregarImagen = async (img, reviewId, idUsu) => {
+    const review = await Review.findOne({ _id: reviewId, idUsuario: idUsu });
 
     if (!review) {
         throw new ReviewNotFoundError();
     }
 
     const cloudinaryClient = configureCloudinary();
-    const imageBase64 = Buffer.from(image.buffer).toString("base64");
-    const uri = `data:${image.mimetype};base64,${imageBase64}`;
+    const imageBase64 = Buffer.from(img.buffer).toString("base64");
+    const uri = `data:${img.mimetype};base64,${imageBase64}`;
 
-    let result;
+    let resultado;
 
     try {
-        result = await cloudinaryClient.uploader.upload(uri);
+        resultado = await cloudinaryClient.uploader.upload(uri);
     } catch (error) {
         throw new ImageUploadError();
     }
 
-    review.imageUrl = result.secure_url;
+    review.urlImagen = resultado.secure_url;
     return await review.save();
 };
 
-export const eliminarReview = async (reviewId, userId, bookId) => {
-    const review = await Review.findOneAndDelete({ _id: reviewId, userId:userId });
-    console.log(review, reviewId, userId);
+export const eliminarReview = async (reviewId, idUsu) => {
+    const review = await Review.findOneAndDelete({ _id: reviewId, idUsuario:idUsu });
     if(!review){
         throw new ReviewNotFoundError();
     }

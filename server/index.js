@@ -7,7 +7,7 @@ import { bookRouterV1 } from "./src/routes/book.router.v1.js"
 import { adminAuthorizationMiddleware } from "./src/middleware/admin.middleware.js";
 import { adminRouterV1 } from "./src/routes/admin.router.v1.js";
 import { reviewRouterV1 } from "./src/routes/review.router.v1.js";
-import { userRouterV1 } from "./src/routes/user.router.v1.js";
+import { usuarioRouterV1 } from "./src/routes/user.router.v1.js";
 import { logMiddleware } from "./src/middleware/logger.middleware.js";
 
 const app = express();
@@ -25,7 +25,7 @@ app.use("/v1", authRouter)
 app.use(authMiddleware);
 app.use("/v1", bookRouterV1);
 app.use("/v1", reviewRouterV1);
-app.use("/v1/user", userRouterV1);
+app.use("/v1/usuario", usuarioRouterV1);
 app.use("/v1/admin", adminAuthorizationMiddleware, adminRouterV1);
 
 //Conectar a la base de datos

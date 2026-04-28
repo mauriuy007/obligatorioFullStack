@@ -1,29 +1,28 @@
-import { createBook } from "../services/book.service.v1.js";
-import { getBooksByUserId } from "../services/book.service.v1.js";
-import { getBookById } from "../services/book.service.v1.js";
-import { updateBook } from "../services/book.service.v1.js";
-import { deleteBook } from "../services/book.service.v1.js";
-import { generateRecommendations } from "../services/book.service.v1.js";
-import { countBooksByUserId } from "../services/book.service.v1.js";
-import { getUserById } from "../services/user.service.v1.js";
+import { errorLimiteLibros } from "../errors/error.limite.libros.js";
+import { crearLibroService } from "../services/book.service.v1.js";
+import { obtenerLibrosService } from "../services/book.service.v1.js";
+import { obtenerLibrosPorIdService } from "../services/book.service.v1.js";
+import { actualizarLibro } from "../services/book.service.v1.js";
+import { eliminarLibroService } from "../services/book.service.v1.js";
+import { generarRecomendacion } from "../services/book.service.v1.js";
+import { contadorLibrosPorUsuario } from "../services/book.service.v1.js";
+import { obtenerUsuarioPorId } from "../services/user.service.v1.js";
 
 export const crearLibro = async (req, res) => {
     try {
         const { titulo, autor, genero, descripcion, estado} = req.body;
         const idUsuario = req.idUsuario;
-        const usuario = await getUserById(idUsuario);
+        const usuario = await obtenerUsuarioPorId(idUsuario);
 
         if (usuario.plan === "Plus") {
-            const cantidadLibros = await countBooksByUserId(idUsuario);
+            const cantidadLibros = await contadorLibrosPorUsuario(idUsuario);
 
             if (cantidadLibros >= 4) {
-                return res.status(403).json({
-                    error: "Los usuarios Plus solo pueden registrar hasta 4 libros"
-                });
+                throw new errorLimiteLibros();
             }
         }
 
-        const nuevoLibro = await createBook({ titulo, autor, genero, descripcion, estado }, idUsuario);
+        const nuevoLibro = await crearLibroService({ titulo, autor, genero, descripcion, estado }, idUsuario);
         res.status(201).json(nuevoLibro);
     } catch (error) {
         console.error("Error creating book:", error);
@@ -31,15 +30,15 @@ export const crearLibro = async (req, res) => {
     }
 };
 
-export const obtenerLibrosPorUsuario = async (req, res) => {
+export const obtenerLibros = async (req, res) => {
     try {
         const idUsuario = req.idUsuario;
-        const {limit, page, titulo, autor, genero, estado } = req.query
-        if(!limit || !page){
-            res.status(400).json({ message: "page and limit are required" })
+        const {limite, pagina, titulo, autor, genero, estado } = req.query
+        if(!limite || !pagina){
+            res.status(400).json({ message: "Debe ingresar pagina y limite" })
             return
         }
-        const libros = await getBooksByUserId(limit, page, titulo, autor, genero, estado, idUsuario);
+        const libros = await obtenerLibrosService(limite, pagina, titulo, autor, genero, estado, idUsuario);
         res.status(200).json(libros);
     }
     catch (error) {
@@ -50,9 +49,9 @@ export const obtenerLibrosPorUsuario = async (req, res) => {
 
 export const obtenerLibrosPorId = async (req, res) => {
     try {
-        const bookId = req.params.id;
-        const userId = req.idUsuario;
-        const libro = await getBookById(bookId, userId);
+        const idLibro = req.params.id;
+        const idUsu = req.idUsuario;
+        const libro = await obtenerLibrosPorIdService(idLibro, idUsu);
         res.status(200).json(libro);
     } catch (error) {
         console.error("Error fetching book by ID:", error);
@@ -62,10 +61,10 @@ export const obtenerLibrosPorId = async (req, res) => {
 
 export const modificarLibro = async (req, res) => {
     try {
-        const bookId = req.params.id;
-        const userId = req.idUsuario;
+        const idLibro = req.params.id;
+        const idUsu = req.idUsuario;
         const { titulo, autor, genero, descripcion, estado } = req.body;
-        const libroActualizado = await updateBook(bookId, userId, { titulo, autor, genero, descripcion, estado });
+        const libroActualizado = await actualizarLibro(idLibro, idUsu, { titulo, autor, genero, descripcion, estado });
         res.status(200).json(libroActualizado);
     }
     catch(error) {
@@ -76,9 +75,9 @@ export const modificarLibro = async (req, res) => {
 export const eliminarLibro = async (req, res) => {
     try {
         console.log(req.params)
-        const bookId = req.params.id;
-        const userId = req.idUsuario;
-        await deleteBook(bookId, userId);
+        const idLibro = req.params.id;
+        const idUsu = req.idUsuario;
+        await eliminarLibroService(idLibro, idUsu);
         res.status(204).send();
     }
     catch(error) {
@@ -88,10 +87,10 @@ export const eliminarLibro = async (req, res) => {
 
 export const sugerirLibros = async (req, res) => {
     try {
-        const userId = req.idUsuario;
-        const bookId = req.params.id;
-        const recomendaciones = await generateRecommendations(userId, bookId);
-        res.status(200).json({ recommendation: recomendaciones} );
+        const idUsu = req.idUsuario;
+        const idLibro = req.params.id;
+        const recomendaciones = await generarRecomendacion(idUsu, idLibro);
+        res.status(200).json({ sugerencia: recomendaciones} );
     }
     catch(error) {
         res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });

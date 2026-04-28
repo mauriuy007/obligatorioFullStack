@@ -5,32 +5,32 @@ const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
 
 const GOOGLE_BOOKS_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
 
-export const getBookByName = async (bookName) => {
-    if (!bookName) {
+export const obtenerLibroPorNombre = async (nombreLibro) => {
+    if (!nombreLibro) {
         throw new InvalidBookError();
     }
 
-    const searchParams = new URLSearchParams({
-        q: `intitle:${bookName}`,
+    const params = new URLSearchParams({
+        q: `intitle:${nombreLibro}`,
         maxResults: "1",
         printType: "books",
     });
 
     if (apiKey) {
-        searchParams.set("key", apiKey);
+        params.set("key", apiKey);
     }
 
-    const response = await fetch(`${GOOGLE_BOOKS_BASE_URL}?${searchParams.toString()}`);
+    const respuesta = await fetch(`${GOOGLE_BOOKS_BASE_URL}?${params.toString()}`);
 
-    if (!response.ok) {
-        if (response.status === 429) {
+    if (!respuesta.ok) {
+        if (respuesta.status === 429) {
             throw new GoogleBooksServiceError();
         }
 
-        throw new GoogleBooksServiceError(`Google Books API error: ${response.status}`);
+        throw new GoogleBooksServiceError(`Error Google Api: ${respuesta.status}`);
     }
 
-    const data = await response.json();
+    const data = await respuesta.json();
 
     if (!data.items || data.items.length === 0) {
         return null;

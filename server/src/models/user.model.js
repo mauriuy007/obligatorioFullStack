@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     apellido: { type: String, required: true },
     nombreUsuario: { type: String, required: true, unique: true },
     mail: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    contrasena: { type: String, required: true },
     rol: {
         type: String,
         required: true,

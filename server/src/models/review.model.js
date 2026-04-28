@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
-    rating: { type: Number, required: true },
-    comment: { type: String },
-    imageUrl: { type: String, default: null },
-    userId: {
+    calificacion: { type: Number, required: true },
+    comentario: { type: String },
+    urlImagen: { type: String, default: null },
+    idUsuario: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Usuario",
         required: true
     },
-    bookId: {
+    idLibro: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"Libro",
         required: true

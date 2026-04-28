@@ -5,13 +5,13 @@ import { usuarioDto } from "../dtos/usuario.dto.js"
 import { validateCreateUser } from "../validators/user.validator.js"
 import { invalidUserDataError } from "../errors/invalid.user.data.error.js"
 
-const dologin = async ({ nombreUsuario, password }) => {
-    const user = await Usuario.findOne({ nombreUsuario: nombreUsuario })
-    if (user){
-        const contraValida = await bcrypt.compare(password, user.password)
+const loginUsuario = async ({ nombreUsuario, contrasena }) => {
+    const usuario = await Usuario.findOne({ nombreUsuario: nombreUsuario })
+    if (usuario){
+        const contraValida = await bcrypt.compare(contrasena, usuario.contrasena)
         if(contraValida){
             const token = jwt.sign(
-                { idUsu: user._id, rolUsu: user.rol },
+                { idUsu: usuario._id, rolUsu: usuario.rol },
                 process.env.JWT_SECRET_KEY,
                 { expiresIn: "1h" }
             )
@@ -22,12 +22,12 @@ const dologin = async ({ nombreUsuario, password }) => {
     throw new invalidUserDataError();
 }
 
-const registrarUsuario = async ({ nombreUsuario, nombre, apellido, password, mail, rol, plan }) => {
+const registrarUsuario = async ({ nombreUsuario, nombre, apellido, contrasena, mail, rol, plan }) => {
     const { error, value } = validateCreateUser({
         nombreUsuario,
         nombre,
         apellido,
-        password,
+        contrasena,
         mail,
         rol,
         plan
@@ -37,13 +37,13 @@ const registrarUsuario = async ({ nombreUsuario, nombre, apellido, password, mai
         throw new Error(error.details[0].message);
     }
 
-    const contraHasheada = await bcrypt.hash(password, 10);
+    const contraHasheada = await bcrypt.hash(contrasena, 10);
 
     const nuevoUsuario = {
         nombreUsuario: value.nombreUsuario,
         nombre: value.nombre,
         apellido: value.apellido,
-        password: contraHasheada,
+        contrasena: contraHasheada,
         mail: value.mail,
         rol: value.rol,
         plan: value.plan
@@ -62,4 +62,4 @@ const registrarUsuario = async ({ nombreUsuario, nombre, apellido, password, mai
     return devolverUsuario;
 }
 
-export { dologin, registrarUsuario }
+export { loginUsuario, registrarUsuario }

@@ -1,11 +1,11 @@
-import { createReview, getReviewsByBookId, uploadReviewImage, eliminarReview } from "../services/review.service.v1.js";
+import { crearReviewService, obtenerReviewPorLibro, agregarImagen, eliminarReview } from "../services/review.service.v1.js";
 
 export const crearReview = async (req, res) => {
     try {
-        const { rating, comment } = req.body;
-        const userId = req.idUsuario;
-        const bookId = req.params.bookId;
-        const review = await createReview({ rating, comment }, bookId, userId);
+        const { calificacion, comentario } = req.body;
+        const idUsu = req.idUsuario;
+        const idLibro = req.params.idLibro;
+        const review = await crearReviewService({ calificacion, comentario }, idLibro, idUsu);
 
         res.status(201).json(review);
     } catch (error) {
@@ -15,16 +15,16 @@ export const crearReview = async (req, res) => {
 
 export const obtenerReviewsPorLibro = async (req, res) => {
     try {
-        const userId = req.idUsuario;
-        const bookId = req.params.bookId;
-        const { limit, page, rating } = req.query
+        const idUsu = req.idUsuario;
+        const idLibro = req.params.idLibro;
+        const { limite, pagina, rating } = req.query
 
-        if(!limit || !page){
-            res.status(400).json({ message: "page and limit are required" })
+        if(!limite || !pagina){
+            res.status(400).json({ message: "Debe ingresar pagina y limite" })
             return
         }
 
-        const reviews = await getReviewsByBookId(bookId, userId, limit, page, rating);
+        const reviews = await obtenerReviewPorLibro(idLibro, idUsu, limite, pagina, rating);
 
         /*
         if (!reviews || reviews.length === 0) {
@@ -39,20 +39,20 @@ export const obtenerReviewsPorLibro = async (req, res) => {
 };
 
 export const agregarImagenReview = async (req, res) => {
-    const image = req.file;
+    const img = req.file;
     const reviewId = req.params.id;
 
-    if (!image) {
+    if (!img) {
         return res.status(400).json({ message: "no se envió imagen" });
     }
 
-    if (!image.mimetype.startsWith("image/")) {
+    if (!img.mimetype.startsWith("image/")) {
         return res.status(400).json({ message: "debe ser un archivo de imagen" });
     }
 
     try {
-        const userId = req.idUsuario;
-        const review = await uploadReviewImage(image, reviewId, userId);
+        const idUsu = req.idUsuario;
+        const review = await agregarImagen(img, reviewId, idUsu);
 
         res.status(200).json(review);
     } catch (error) {
@@ -64,8 +64,8 @@ export const agregarImagenReview = async (req, res) => {
 export const borrarReview = async (req, res) => {
     try{
         const reviewId = req.params.id;
-        const userId = req.idUsuario;
-        await eliminarReview(reviewId, userId);
+        const idUsu = req.idUsuario;
+        await eliminarReview(reviewId, idUsu);
         res.status(204).send();
     }catch(error){
         res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor"});

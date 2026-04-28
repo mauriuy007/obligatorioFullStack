@@ -1,10 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
 
-const getAi = () => new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const obtenerAi = () => new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export async function suggestBook(bookData) {
-  const ai = getAi();
-  const response = await ai.models.generateContent({
+export async function sugerirLibro(infoLibro) {
+  const ai = obtenerAi();
+  const respuesta = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: `
         You are an expert literary reviewer.
@@ -20,8 +20,8 @@ export async function suggestBook(bookData) {
 
         Return only the names of the books each of them separated by a /.
         BookData:
-        ${bookData}
+        ${infoLibro}
         `
   });
-  return response.text;
+  return respuesta.text;
 }
