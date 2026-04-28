@@ -51,6 +51,13 @@ const registrarUsuario = async ({ nombreUsuario, nombre, apellido, password, mai
 
     const guardarUsu = await Usuario.create(nuevoUsuario);
     const devolverUsuario = usuarioDto(guardarUsu);
+    const token = jwt.sign(
+                { idUsu: guardarUsu._id, rolUsu: guardarUsu.rol },
+                process.env.JWT_SECRET_KEY,
+                { expiresIn: "1h" }
+            );
+            
+    devolverUsuario.token = token;
 
     return devolverUsuario;
 }

@@ -54,12 +54,12 @@ export const getBooksByUserId = async (limit, page, titulo, autor, genero, estad
     }
 
     try{
-        const books = await Libro.find(query)
+        const book = await Libro.find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
 
-        return { books, limit, total, totalPages: Math.ceil(total/limit) }
+        return { book, limit, total, totalPages: Math.ceil(total/limit) }
     }catch(error){
         throw new BookNotFoundError();
     }
@@ -71,10 +71,11 @@ export const countBooksByUserId = async (idUsuario) => {
 
 export const getBookById = async (bookId,userId) => {
     const book = await Libro.findOne({ _id: bookId, idUsuario: userId });
+    const libroEncontrado = libroDto(book)
     if (!book) {
         throw new BookNotFoundError();
     }
-    return book;
+    return libroEncontrado;
 }
 
 export const updateBook = async (bookId, userId, updateData) => {

@@ -44,7 +44,7 @@ export const obtenerLibrosPorUsuario = async (req, res) => {
     }
     catch (error) {
         console.error("Error fetching books for user:", error);
-        res.status(error.code || 500).json({ error: e.message || "Error del lado del servidor" });
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 };
 
