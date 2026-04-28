@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs"
 import { Usuario } from "../models/user.model.js"
 import { usuarioDto } from "../dtos/usuario.dto.js"
 import { validateCreateUser } from "../validators/user.validator.js"
-import { invalidUserDataError } from "../errors/invalid.user.data.error.js"
+import { invalidUserDataError } from "../errors/temp.invalid.user.data.error.js"
 
 const loginUsuario = async ({ nombreUsuario, contrasena }) => {
     const usuario = await Usuario.findOne({ nombreUsuario: nombreUsuario })

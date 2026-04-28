@@ -1,6 +1,6 @@
 import { Libro } from "../models/book.model.js";
 import { obtenerLibroPorNombre } from "./googleBooksService.js";
-import { BookNotFoundError } from "../errors/book.not.found.error.js";
+import { BookNotFoundError } from "../errors/temp.book.not.found.error.js";
 import { sugerirLibro } from "./geminiService.js";
 import { libroDto } from "../dtos/book.dto.js";
 

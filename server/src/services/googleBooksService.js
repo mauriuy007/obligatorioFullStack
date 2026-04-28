@@ -1,5 +1,5 @@
-import { GoogleBooksServiceError } from "../errors/google.books.service.error.js";
-import { InvalidBookError } from "../errors/Invalid.book.error.js";
+import { GoogleBooksServiceError } from "../errors/temp.google.books.service.error.js";
+import { InvalidBookError } from "../errors/temp.invalid.book.error.js";
 
 const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
 

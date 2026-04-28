@@ -1,4 +1,4 @@
-import { errorLimiteLibros } from "../errors/book.limit.error.js";
+import { errorLimiteLibros } from "../errors/temp.book.limit.error.js";
 import { crearLibroService } from "../services/book.service.v1.js";
 import { obtenerLibrosService } from "../services/book.service.v1.js";
 import { obtenerLibrosPorIdService } from "../services/book.service.v1.js";
