@@ -4,6 +4,7 @@ import { Usuario } from "../models/user.model.js"
 import { usuarioDto } from "../dtos/usuario.dto.js"
 import { validateCreateUser } from "../validators/user.validator.js"
 import { invalidUserDataError } from "../errors/invalid.user.data.error.js"
+import { alreadyRegisteredUserError } from "../errors/already.registered.error.js"
 
 const loginUsuario = async ({ nombreUsuario, contrasena }) => {
     const usuario = await Usuario.findOne({ nombreUsuario: nombreUsuario })
@@ -23,6 +24,13 @@ const loginUsuario = async ({ nombreUsuario, contrasena }) => {
 }
 
 const registrarUsuario = async ({ nombreUsuario, nombre, apellido, contrasena, mail, rol, plan }) => {
+    const usuarioExistente = await Usuario.findOne({ nombreUsuario: nombreUsuario });
+
+    if(usuarioExistente){
+        throw new alreadyRegisteredUserError();
+    }
+
+
     const { error, value } = validateCreateUser({
         nombreUsuario,
         nombre,

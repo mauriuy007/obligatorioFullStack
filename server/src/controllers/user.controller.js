@@ -6,7 +6,7 @@ const pasarAPremium = async (req, res) => {
         const usuarioActualizado = await cambiarPlan(req.idUsuario);
         res.status(200).json(usuarioActualizado);
     } catch (e) {
-        res.status(404).json({ message: e.message });
+        res.status(e.code).json({ message: e.message });
     }
 }
 

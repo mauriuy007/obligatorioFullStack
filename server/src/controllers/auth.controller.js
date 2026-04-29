@@ -14,7 +14,7 @@ const registrar = async (req, res) => {
         const usuarioNuevo = await registrarUsuario(req.body)
         res.status(201).json(usuarioNuevo)
     }catch (e){
-        res.status(401).json({ message: e.message })
+        res.status(e.code).json({ message: e.message })
     }
 }
 

@@ -5,6 +5,7 @@ import { BookNotFoundError } from "../errors/book.not.found.error.js";
 import { ReviewNotFoundError } from "../errors/review.not.foundError.js"
 import { ImageUploadError } from "../errors/image.upload.error.js";
 import { reviewDto } from "../dtos/review.dto.js";
+import { reviewExistsError } from "../errors/review.exists.error.js";
 
 const configureCloudinary = () => {
     cloudinary.config({
@@ -18,8 +19,14 @@ const configureCloudinary = () => {
 
 export const crearReviewService = async ({ calificacion, comentario }, idLibro, idUsu) => {
     const libro = await Libro.findOne({ _id: idLibro, idUsuario: idUsu });
+    const existeReview = await Review.findOne({ idLibro: idLibro, idUsuario: idUsu });
+
     if (!libro) {
         throw new BookNotFoundError();
+    }
+
+    if(existeReview){
+        throw new reviewExistsError();
     }
 
     const nuevaReview = {
