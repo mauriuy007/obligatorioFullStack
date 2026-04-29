@@ -22,9 +22,6 @@ export const crearLibroService = async ({ titulo, autor, genero, descripcion, es
         idUsuario
     };
 
-    console.log(titulo);
-    console.log(autor);
-
 
     const guardarLibro = await Libro.create(nuevoLibro);
     const devolverLibro = libroDto(guardarLibro); 
