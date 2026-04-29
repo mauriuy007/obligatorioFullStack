@@ -1,4 +1,5 @@
 import { Libro } from "../models/book.model.js";
+import { Review } from "../models/review.model.js";
 import { obtenerLibroPorNombre } from "./googleBooksService.js";
 import { BookNotFoundError } from "../errors/book.not.found.error.js";
 import { sugerirLibro } from "./geminiService.js";
@@ -79,12 +80,12 @@ export const obtenerLibrosPorIdService = async (idLibro,idUsu) => {
 
 export const actualizarLibro = async (idLibro, idUsu, nuevaData) => {
     try {
-        const book = await Libro.findOneAndUpdate(
+        const libro = await Libro.findOneAndUpdate(
             { _id: idLibro, idUsuario: idUsu },
             nuevaData,
             {returnDocument: "after",runValidator:true}
         );
-        if (!book) {
+        if (!libro) {
             throw new BookNotFoundError();
         }
     }catch(error) {
@@ -92,10 +93,18 @@ export const actualizarLibro = async (idLibro, idUsu, nuevaData) => {
     }
 }
 export const eliminarLibroService = async (idLibro, idUsu) => {
-    const book = await Libro.findOneAndDelete({ _id: idLibro, idUsuario: idUsu })
-    if (!book) {
+    const libro = await Libro.findOne({ _id: idLibro, idUsuario: idUsu })
+    
+    if (!libro) {
         throw new BookNotFoundError();
     }
+
+    await Review.deleteMany({
+       idLibro : idLibro
+    });
+
+    await Libro.findByIdAndDelete(idLibro)
+
 }
 
 export const generarRecomendacion = async (idUsu, idLibro) => {

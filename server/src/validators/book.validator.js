@@ -10,7 +10,7 @@ const bookSchema = Joi.object({
     genero: Joi.string().trim().min(1).max(30).messages({
         "string.max": "Este campo puede tener máximo 30 caracteres"
     }),
-    descripcion: Joi.string().trim().min(30).max(2000).messages({
+    descripcion: Joi.string().trim().min(30).max(1000).messages({
         "string.max": "Este campo puede tener máximo 2000 caracteres",
         "string.min": "La descripción debe tener al menos 30 caracteres"
 
