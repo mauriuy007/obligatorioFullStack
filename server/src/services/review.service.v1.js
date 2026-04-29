@@ -43,6 +43,24 @@ export const crearReviewService = async ({ calificacion, comentario }, idLibro, 
     return devolverReview;
 };
 
+export const obtenerReviewsService = async(limite, pagina, idUsu) => {
+    const query = { idUSuario: idUsu }
+    const total = await Review.countDocuments(query)
+    pagina = Number(pagina)
+    limite = Number(limite)
+    const skip = (pagina -1) * limite
+
+    try{
+        const reviews = await Review.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limite);
+        return { reviews, limite, total, totalPaginas: Math.ceil(total/limite) }
+    }catch(error){
+        throw new ReviewNotFoundError();
+    }
+}
+
 export const obtenerReviewPorLibro = async (idLibro, idUsu, limite, pagina, rating) => {
     const libro = await Libro.findOne({ _id: idLibro, idUsuario: idUsu });
     if (!libro) {

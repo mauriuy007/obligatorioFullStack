@@ -1,4 +1,4 @@
-import { crearReviewService, obtenerReviewPorLibro, agregarImagen, eliminarReview } from "../services/review.service.v1.js";
+import { crearReviewService, obtenerReviewPorLibro, agregarImagen, eliminarReview, obtenerReviewsService } from "../services/review.service.v1.js";
 
 export const crearReview = async (req, res) => {
     try {
@@ -9,6 +9,22 @@ export const crearReview = async (req, res) => {
 
         res.status(201).json(review);
     } catch (error) {
+        res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
+    }
+};
+
+export const obtenerReviews = async(req,res) => {
+    try{
+        const idUsu = req.idUsuario;
+        const { limite,pagina } = req.query
+
+        if(!limite || !pagina){
+            res.status(400).json({ message:"Debe ingresar página y límite" })
+            return
+        }
+        const reviews = await obtenerReviewsService(limite, pagina, idUsu);
+        res.status(200).json(reviews);
+    }catch(error){
         res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
     }
 };
