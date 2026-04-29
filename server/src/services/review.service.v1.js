@@ -6,6 +6,7 @@ import { ReviewNotFoundError } from "../errors/review.not.foundError.js"
 import { ImageUploadError } from "../errors/image.upload.error.js";
 import { reviewDto } from "../dtos/review.dto.js";
 import { reviewExistsError } from "../errors/review.exists.error.js";
+import mongoose from "mongoose";
 
 const configureCloudinary = () => {
     cloudinary.config({
@@ -44,7 +45,7 @@ export const crearReviewService = async ({ calificacion, comentario }, idLibro, 
 };
 
 export const obtenerReviewsService = async(limite, pagina, idUsu) => {
-    const query = { idUSuario: idUsu }
+    const query = { idUsuario: idUsu }
     const total = await Review.countDocuments(query)
     pagina = Number(pagina)
     limite = Number(limite)
