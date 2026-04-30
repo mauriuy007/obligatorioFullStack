@@ -1,4 +1,4 @@
-import { errorLimiteLibros } from "../errors/book.limit.error.js";
+import { bookLimitError } from "../errors/book.limit.error.js";
 import { crearLibroService } from "../services/book.service.v1.js";
 import { obtenerLibrosService } from "../services/book.service.v1.js";
 import { obtenerLibrosPorIdService } from "../services/book.service.v1.js";
@@ -18,7 +18,7 @@ export const crearLibro = async (req, res) => {
             const cantidadLibros = await contadorLibrosPorUsuario(idUsuario);
 
             if (cantidadLibros >= 4) {
-                throw new errorLimiteLibros();
+                throw new bookLimitError();
             }
         }
 

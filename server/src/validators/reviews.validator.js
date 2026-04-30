@@ -15,4 +15,3 @@ const reviewSchema = Joi.object({
 
 export const validateCreateReview = (review) =>
     reviewSchema.validate(review, { abortEarly: true });
-0

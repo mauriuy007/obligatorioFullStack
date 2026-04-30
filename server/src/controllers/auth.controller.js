@@ -5,7 +5,7 @@ const login = async (req, res) => {
         const token = await loginUsuario(req.body)
         res.status(200).json(token)
     }catch(e){
-        res.status(401).json({ message: e.message })
+        res.status(e.code).json({ message: e.message })
     }
 }
 

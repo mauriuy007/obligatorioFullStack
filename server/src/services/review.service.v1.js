@@ -8,7 +8,7 @@ import { reviewDto } from "../dtos/review.dto.js";
 import { reviewExistsError } from "../errors/review.exists.error.js";
 import mongoose from "mongoose";
 
-const configureCloudinary = () => {
+const configCloudinary = () => {
     cloudinary.config({
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
         api_key: process.env.CLOUDINARY_API_KEY,
@@ -97,7 +97,7 @@ export const agregarImagen = async (img, reviewId, idUsu) => {
         throw new ReviewNotFoundError();
     }
 
-    const cloudinaryClient = configureCloudinary();
+    const cloudinaryClient = configCloudinary();
     const imageBase64 = Buffer.from(img.buffer).toString("base64");
     const uri = `data:${img.mimetype};base64,${imageBase64}`;
 

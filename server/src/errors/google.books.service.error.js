@@ -1,6 +1,6 @@
 export class GoogleBooksServiceError extends Error {
-    constructor(message = "El servicio de Google Books no está disponible") {
-        super(message);
+    constructor() {
+        super("El servicio de Google Books no está disponible");
         this.code = 503;
     }
 }

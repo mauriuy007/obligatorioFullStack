@@ -1,3 +1,5 @@
+import { noImageError } from "../errors/image.not.sent.error.js";
+import { wrongFileTypeError } from "../errors/wrong.file.type.error.js";
 import { crearReviewService, obtenerReviewPorLibro, agregarImagen, eliminarReview, obtenerReviewsService } from "../services/review.service.v1.js";
 
 export const crearReview = async (req, res) => {
@@ -16,7 +18,7 @@ export const crearReview = async (req, res) => {
 export const obtenerReviews = async(req,res) => {
     try{
         const idUsu = req.idUsuario;
-        const { limite,pagina } = req.query
+        const { limite, pagina } = req.query
 
         if(!limite || !pagina){
             res.status(400).json({ message:"Debe ingresar página y límite" })
@@ -42,12 +44,6 @@ export const obtenerReviewsPorLibro = async (req, res) => {
 
         const reviews = await obtenerReviewPorLibro(idLibro, idUsu, limite, pagina, rating);
 
-        /*
-        if (!reviews || reviews.length === 0) {
-            return res.status(204).json({ message: "No reviews found for this book" });
-        }
-        */
-
         res.status(200).json(reviews);
     } catch (error) {
         res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
@@ -59,11 +55,11 @@ export const agregarImagenReview = async (req, res) => {
     const reviewId = req.params.id;
 
     if (!img) {
-        return res.status(400).json({ message: "no se envió imagen" });
+        throw new noImageError();
     }
 
     if (!img.mimetype.startsWith("image/")) {
-        return res.status(400).json({ message: "debe ser un archivo de imagen" });
+        throw new wrongFileTypeError();
     }
 
     try {
