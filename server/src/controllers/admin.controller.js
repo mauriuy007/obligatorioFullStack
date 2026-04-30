@@ -1,4 +1,4 @@
-import { missingLimitPageError } from "../errors/limit.page.error.js";
+import { MissingLimitPageError } from "../errors/limit.page.error.js";
 import { obtenerInfoAdmin } from "../services/admin.service.v1.js";
 import { obtenerLibrosService, obtenerReviewsService, obtenerUsuariosService } from "../services/admin.service.v1.js";
 
@@ -16,7 +16,7 @@ export const obtenerLibros = async (req,res) => {
         const { limite, pagina } = req.query
 
         if(!limite || !pagina){
-            throw new missingLimitPageError();
+            throw new MissingLimitPageError();
         }
         const librosUsuarios = await obtenerLibrosService(limite, pagina);
         res.status(200).json(librosUsuarios)
@@ -32,7 +32,7 @@ export const obtenerReviews = async (req, res) => {
     const {limite, pagina} = req.query
 
     if(!limite || !pagina){
-        throw new missingLimitPageError();
+        throw new MissingLimitPageError();
     }
         const reviewsUsuarios = await obtenerReviewsService(limite, pagina);
         res.status(200).json(reviewsUsuarios)
@@ -46,7 +46,7 @@ export const obtenerUsuarios = async (req, res) => {
         const {limite, pagina} = req.query
 
         if(!limite || !pagina){
-            throw new missingLimitPageError();
+            throw new MissingLimitPageError();
         }
         const listaUsuarios = await obtenerUsuariosService(limite, pagina);
         res.status(200).json(listaUsuarios)

@@ -1,9 +1,6 @@
 import { Libro } from "../models/book.model.js"
 import { Review } from "../models/review.model.js"
 import { Usuario } from "../models/user.model.js"
-import { BookNotFoundError } from "../errors/book.not.found.error.js"
-import { ReviewNotFoundError } from "../errors/review.not.foundError.js"
-import { userNotFoundError } from "../errors/user.not.found.error.js"
 import { ResourceRetrievalError } from "../errors/resource.retrieval.error.js"
 
 export const obtenerInfoAdmin = async () => {

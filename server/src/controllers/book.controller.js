@@ -1,4 +1,4 @@
-import { bookLimitError } from "../errors/book.limit.error.js";
+import { BookLimitError } from "../errors/book.limit.error.js";
 import { crearLibroService } from "../services/book.service.v1.js";
 import { obtenerLibrosService } from "../services/book.service.v1.js";
 import { obtenerLibrosPorIdService } from "../services/book.service.v1.js";
@@ -7,7 +7,7 @@ import { eliminarLibroService } from "../services/book.service.v1.js";
 import { generarRecomendacion } from "../services/book.service.v1.js";
 import { contadorLibrosPorUsuario } from "../services/book.service.v1.js";
 import { obtenerUsuarioPorId } from "../services/user.service.v1.js";
-import { missingLimitPageError } from "../errors/limit.page.error.js"
+import { MissingLimitPageError } from "../errors/limit.page.error.js"
 
 export const crearLibro = async (req, res) => {
     try {
@@ -19,7 +19,7 @@ export const crearLibro = async (req, res) => {
             const cantidadLibros = await contadorLibrosPorUsuario(idUsuario);
 
             if (cantidadLibros >= 4) {
-                throw new bookLimitError();
+                throw new BookLimitError();
             }
         }
 
@@ -36,7 +36,7 @@ export const obtenerLibros = async (req, res) => {
         const idUsuario = req.idUsuario;
         const {limite, pagina, titulo, autor, genero, estado } = req.query
         if(!limite || !pagina){
-            throw new missingLimitPageError();
+            throw new MissingLimitPageError();
         }
         const libros = await obtenerLibrosService(limite, pagina, titulo, autor, genero, estado, idUsuario);
         res.status(200).json(libros);

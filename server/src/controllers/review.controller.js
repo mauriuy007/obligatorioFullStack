@@ -1,6 +1,6 @@
-import { noImageError } from "../errors/image.not.sent.error.js";
-import { missingLimitPageError } from "../errors/limit.page.error.js";
-import { wrongFileTypeError } from "../errors/wrong.file.type.error.js";
+import { NoImageError } from "../errors/image.not.sent.error.js";
+import { MissingLimitPageError } from "../errors/limit.page.error.js";
+import { WrongFileTypeError } from "../errors/wrong.file.type.error.js";
 import { crearReviewService, obtenerReviewPorLibro, agregarImagen, eliminarReview, obtenerReviewsService } from "../services/review.service.v1.js";
 
 export const crearReview = async (req, res) => {
@@ -39,7 +39,7 @@ export const obtenerReviewsPorLibro = async (req, res) => {
         const { limite, pagina, rating } = req.query
 
         if(!limite || !pagina){
-            throw new missingLimitPageError();
+            throw new MissingLimitPageError();
         }
 
         const reviews = await obtenerReviewPorLibro(idLibro, idUsu, limite, pagina, rating);
@@ -55,11 +55,11 @@ export const agregarImagenReview = async (req, res) => {
     const reviewId = req.params.id;
 
     if (!img) {
-        throw new noImageError();
+        throw new NoImageError();
     }
 
     if (!img.mimetype.startsWith("image/")) {
-        throw new wrongFileTypeError();
+        throw new WrongFileTypeError();
     }
 
     try {

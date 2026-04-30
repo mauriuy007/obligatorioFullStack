@@ -1,13 +1,13 @@
 import { Usuario } from "../models/user.model.js";
 import { usuarioDto } from "../dtos/usuario.dto.js";
-import { invalidUserPlan } from "../errors/invalid.user.plan.error.js";
-import { userNotFoundError } from "../errors/user.not.found.error.js";
+import { InvalidUserPlan } from "../errors/invalid.user.plan.error.js";
+import { UserNotFoundError } from "../errors/user.not.found.error.js";
 
 export const obtenerUsuarioPorId = async (idUsuario) => {
     const usuario = await Usuario.findById(idUsuario);
 
     if (!usuario) {
-        throw new userNotFoundError();
+        throw new UserNotFoundError();
     }
 
     return usuario;
@@ -17,7 +17,7 @@ export const cambiarPlan = async (idUsuario) => {
     const usuario = await Usuario.findById(idUsuario);
 
     if (!usuario) {
-        throw new userNotFoundError();
+        throw new UserNotFoundError();
     }
 
     if (usuario.rol === "Admin") {
@@ -25,7 +25,7 @@ export const cambiarPlan = async (idUsuario) => {
     }
 
     if(usuario.plan === "Premium") {
-        throw new invalidUserPlan();
+        throw new InvalidUserPlan();
     }
 
     usuario.plan = "Premium";
