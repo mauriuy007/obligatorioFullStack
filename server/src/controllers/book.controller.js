@@ -7,6 +7,7 @@ import { eliminarLibroService } from "../services/book.service.v1.js";
 import { generarRecomendacion } from "../services/book.service.v1.js";
 import { contadorLibrosPorUsuario } from "../services/book.service.v1.js";
 import { obtenerUsuarioPorId } from "../services/user.service.v1.js";
+import { missingLimitPageError } from "../errors/limit.page.error.js"
 
 export const crearLibro = async (req, res) => {
     try {
@@ -35,8 +36,7 @@ export const obtenerLibros = async (req, res) => {
         const idUsuario = req.idUsuario;
         const {limite, pagina, titulo, autor, genero, estado } = req.query
         if(!limite || !pagina){
-            res.status(400).json({ message: "Debe ingresar pagina y limite" })
-            return
+            throw new missingLimitPageError();
         }
         const libros = await obtenerLibrosService(limite, pagina, titulo, autor, genero, estado, idUsuario);
         res.status(200).json(libros);

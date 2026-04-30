@@ -1,3 +1,4 @@
+import { missingLimitPageError } from "../errors/limit.page.error.js";
 import { obtenerInfoAdmin } from "../services/admin.service.v1.js";
 import { obtenerLibrosService, obtenerReviewsService, obtenerUsuariosService } from "../services/admin.service.v1.js";
 
@@ -12,28 +13,44 @@ export const obtenerAdmin = async (req, res) => {
 
 export const obtenerLibros = async (req,res) => {
     try{
-        const librosUsuarios = await obtenerLibrosService();
+        const { limite, pagina } = req.query
+
+        if(!limite || !pagina){
+            throw new missingLimitPageError();
+        }
+        const librosUsuarios = await obtenerLibrosService(limite, pagina);
         res.status(200).json(librosUsuarios)
     }catch(e){
-        res.status(e.code).json({ error: e.error })
+        console.log(e)
+        res.status(e.code).json({ error: e.message })
     }
 
 };
 
 export const obtenerReviews = async (req, res) => {
     try{
-        const reviewsUsuarios = await obtenerReviewsService();
+    const {limite, pagina} = req.query
+
+    if(!limite || !pagina){
+        throw new missingLimitPageError();
+    }
+        const reviewsUsuarios = await obtenerReviewsService(limite, pagina);
         res.status(200).json(reviewsUsuarios)
     }catch(e){
-        res.status(e.code).json({ error: e.error })
+        res.status(e.code).json({ error: e.message })
     }
 };
 
 export const obtenerUsuarios = async (req, res) => {
     try{
-        const listaUsuarios = await obtenerUsuariosService();
+        const {limite, pagina} = req.query
+
+        if(!limite || !pagina){
+            throw new missingLimitPageError();
+        }
+        const listaUsuarios = await obtenerUsuariosService(limite, pagina);
         res.status(200).json(listaUsuarios)
     }catch(e){
-        res.status(e.code).json({ error: e.error })
+        res.status(e.code).json({ error: e.message })
     }
 }

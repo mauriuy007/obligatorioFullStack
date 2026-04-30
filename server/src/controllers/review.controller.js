@@ -1,4 +1,5 @@
 import { noImageError } from "../errors/image.not.sent.error.js";
+import { missingLimitPageError } from "../errors/limit.page.error.js";
 import { wrongFileTypeError } from "../errors/wrong.file.type.error.js";
 import { crearReviewService, obtenerReviewPorLibro, agregarImagen, eliminarReview, obtenerReviewsService } from "../services/review.service.v1.js";
 
@@ -38,8 +39,7 @@ export const obtenerReviewsPorLibro = async (req, res) => {
         const { limite, pagina, rating } = req.query
 
         if(!limite || !pagina){
-            res.status(400).json({ message: "Debe ingresar pagina y limite" })
-            return
+            throw new missingLimitPageError();
         }
 
         const reviews = await obtenerReviewPorLibro(idLibro, idUsu, limite, pagina, rating);

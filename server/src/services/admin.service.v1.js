@@ -11,34 +11,58 @@ export const obtenerInfoAdmin = async () => {
     };
 };
 
-export const obtenerLibrosService = async () => {
-    const librosTodos = await Libro.find();
+export const obtenerLibrosService = async (limite, pagina) => {
+    pagina = Number(pagina)
+    limite = Number(limite)
+    const total = await Libro.countDocuments()
+    const skip = (pagina -1)*limite
 
-    if(!librosTodos){
+    try{
+    const librosTodos = await Libro.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limite);
+
+    return {librosTodos, limite, total, totalPaginas: Math.ceil(total/limite)};
+    }catch(e){
         throw new BookNotFoundError();
     }
-
-    return librosTodos;
 };
 
-export const obtenerReviewsService = async () => {
-    const reviewsTodas = await Review.find();
+export const obtenerReviewsService = async (limite, pagina) => {
+    pagina = Number(pagina)
+    limite = Number(limite)
+    const total = await Libro.countDocuments()
+    const skip = (pagina -1)*limite
 
-    if(!reviewsTodas){
+    try{
+    const reviewsTodas = await Review.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limite);
+
+    return { reviewsTodas, limite, total, totalPaginas: Math.ceil(total/limite) };
+    }catch(e){
         throw new ReviewNotFoundError();
     }
-
-    return reviewsTodas; 
 };
 
-export const obtenerUsuariosService = async () => {
-    const usuariosTodos = await Usuario.find({
-        rol : "Usuario"
-    });
+export const obtenerUsuariosService = async (limite, pagina) => {
+    pagina = Number(pagina)
+    limite = Number(limite)
+    const total = await Libro.countDocuments()
+    const skip = (pagina -1)*limite
 
-    if(!usuariosTodos){
+    try{
+        const usuariosTodos = await Usuario.find({
+            rol : "Usuario"
+        })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limite);
+
+        return {usuariosTodos, limite, total, totalPaginas: Math.ceil(total/limite)};
+    }catch(e){
         throw new userNotFoundError();
     }
-
-    return usuariosTodos;
 }
