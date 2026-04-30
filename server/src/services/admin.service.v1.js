@@ -1,5 +1,6 @@
 import { Libro } from "../models/book.model.js"
 import { Review } from "../models/review.model.js"
+import { Usuario } from "../models/user.model.js"
 
 export const obtenerInfoAdmin = async () => {
     return {
@@ -16,3 +17,10 @@ export const obtenerReviewsService = async () => {
     const reviewsTodas = await Review.find();
     return reviewsTodas; 
 };
+
+export const obtenerUsuariosService = async () => {
+    const usuariosTodos = await Usuario.find({
+        rol : "Usuario"
+    });
+    return usuariosTodos;
+}

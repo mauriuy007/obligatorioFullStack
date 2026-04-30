@@ -1,5 +1,5 @@
 import { obtenerInfoAdmin } from "../services/admin.service.v1.js";
-import { obtenerLibrosService, obtenerReviewsService } from "../services/admin.service.v1.js";
+import { obtenerLibrosService, obtenerReviewsService, obtenerUsuariosService } from "../services/admin.service.v1.js";
 
 export const obtenerAdmin = async (req, res) => {
     try {
@@ -28,3 +28,12 @@ export const obtenerReviews = async (req, res) => {
         res.status(e.code).json({ error: e.error })
     }
 };
+
+export const obtenerUsuarios = async (req, res) => {
+    try{
+        const listaUsuarios = await obtenerUsuariosService();
+        res.status(200).json(listaUsuarios)
+    }catch(e){
+        res.status(e.code).json({ error: e.error })
+    }
+}
