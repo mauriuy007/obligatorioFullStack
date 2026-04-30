@@ -1,6 +1,6 @@
 export class BookNotFoundError extends Error {
     constructor() {
-        super("Hubo un error al buscar el o los libros");
+        super("No se encontraron libros");
         this.code = 404;
     }
 }

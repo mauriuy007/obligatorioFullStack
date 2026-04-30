@@ -4,6 +4,7 @@ import { Usuario } from "../models/user.model.js"
 import { BookNotFoundError } from "../errors/book.not.found.error.js"
 import { ReviewNotFoundError } from "../errors/review.not.foundError.js"
 import { userNotFoundError } from "../errors/user.not.found.error.js"
+import { ResourceRetrievalError } from "../errors/resource.retrieval.error.js"
 
 export const obtenerInfoAdmin = async () => {
     return {
@@ -25,7 +26,7 @@ export const obtenerLibrosService = async (limite, pagina) => {
 
     return {librosTodos, limite, total, totalPaginas: Math.ceil(total/limite)};
     }catch(e){
-        throw new BookNotFoundError();
+        throw new ResourceRetrievalError();
     }
 };
 
@@ -43,7 +44,7 @@ export const obtenerReviewsService = async (limite, pagina) => {
 
     return { reviewsTodas, limite, total, totalPaginas: Math.ceil(total/limite) };
     }catch(e){
-        throw new ReviewNotFoundError();
+        throw new ResourceRetrievalError();
     }
 };
 
@@ -63,6 +64,6 @@ export const obtenerUsuariosService = async (limite, pagina) => {
 
         return {usuariosTodos, limite, total, totalPaginas: Math.ceil(total/limite)};
     }catch(e){
-        throw new userNotFoundError();
+        throw new ResourceRetrievalError();
     }
 }

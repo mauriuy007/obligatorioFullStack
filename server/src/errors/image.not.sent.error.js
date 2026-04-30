@@ -1,6 +1,6 @@
 export class noImageError extends Error {
     constructor(){
-        super("No se envió imagen");
+        super("Debe enviar una imagen");
         this.code = 400;
     }
 }
