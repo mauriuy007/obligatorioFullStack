@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import 'dotenv/config';
 import { conectarBD } from "./src/config/db.js"; 
 import { authRouter } from "./src/routes/auth.router.v1.js";
@@ -13,6 +14,10 @@ import { logMiddleware } from "./src/middleware/logger.middleware.js";
 const app = express();
 const port = process.env.PORT || 3000;
 const host = "localhost";
+
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 
 app.use(express.json());
 
