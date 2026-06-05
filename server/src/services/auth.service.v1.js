@@ -12,7 +12,7 @@ const loginUsuario = async ({ nombreUsuario, contrasena }) => {
         const contraValida = await bcrypt.compare(contrasena, usuario.contrasena)
         if(contraValida){
             const token = jwt.sign(
-                { idUsu: usuario._id, rolUsu: usuario.rol },
+                { idUsu: usuario._id, rolUsu: usuario.rol, planUsu: usuario.plan},
                 process.env.JWT_SECRET_KEY,
                 { expiresIn: "1h" }
             )
@@ -60,7 +60,7 @@ const registrarUsuario = async ({ nombreUsuario, nombre, apellido, contrasena, m
     const guardarUsu = await Usuario.create(nuevoUsuario);
     const devolverUsuario = usuarioDto(guardarUsu);
     const token = jwt.sign(
-                { idUsu: guardarUsu._id, rolUsu: guardarUsu.rol },
+                { idUsu: guardarUsu._id, rolUsu: guardarUsu.rol, planUsu: guardarUsu.plan },
                 process.env.JWT_SECRET_KEY,
                 { expiresIn: "1h" }
             );
