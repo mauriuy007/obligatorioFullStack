@@ -14,6 +14,8 @@ export const obtenerLibroPorNombre = async (nombreLibro) => {
         q: `intitle:${nombreLibro}`,
         maxResults: "1",
         printType: "books",
+        langRestrict: "es"
+        
     });
 
     if (apiKey) {
@@ -60,6 +62,7 @@ export const obtenerOpcionesLibros = async (titulo) => {
         q: `intitle:${titulo}`,
         maxResults: "5",
         printType: "books",
+        langRestrict: "es"
     });
 
     if (apiKey) {
