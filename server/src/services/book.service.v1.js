@@ -1,6 +1,6 @@
 import { Libro } from "../models/book.model.js";
 import { Review } from "../models/review.model.js";
-import { obtenerLibroPorNombre } from "./googleBooksService.js";
+import { obtenerLibroPorNombre, obtenerOpcionesLibros } from "./googleBooksService.js";
 import { BookNotFoundError } from "../errors/book.not.found.error.js";
 import { sugerirLibro } from "./geminiService.js";
 import { libroDto } from "../dtos/book.dto.js";
@@ -29,6 +29,10 @@ export const crearLibroService = async ({ titulo, autor, genero, descripcion, es
 
     return devolverLibro;
 };
+
+export const obtenerOpcionesService = async ({ titulo }) => {
+    return await obtenerOpcionesLibros(titulo);
+}
 
 export const obtenerLibrosService = async (limite, pagina, titulo, autor, genero, estado, idUsuario) => {
     const query = { idUsuario: idUsuario }

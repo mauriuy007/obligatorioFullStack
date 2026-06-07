@@ -50,3 +50,40 @@ export const obtenerLibroPorNombre = async (nombreLibro) => {
         infoLink: volume.volumeInfo?.infoLink ?? null,
     };
 };
+
+export const obtenerOpcionesLibros = async (titulo) => {
+    if (!titulo) {
+        return [];
+    }
+
+    const params = new URLSearchParams({
+        q: `intitle:${titulo}`,
+        maxResults: "5",
+        printType: "books",
+    });
+
+    if (apiKey) {
+        params.set("key", apiKey);
+    }
+
+    const respuesta = await fetch(
+        `${GOOGLE_BOOKS_BASE_URL}?${params.toString()}`
+    );
+
+    if (!respuesta.ok) {
+        throw new GoogleBooksServiceError();
+    }
+
+    const data = await respuesta.json();
+
+    if (!data.items) {
+        return [];
+    }
+
+    return data.items.map(item => ({
+        titulo: item.volumeInfo?.title ?? "",
+        autor: item.volumeInfo?.authors?.join(", ") ?? "",
+        genero: item.volumeInfo?.categories?.[0] ?? "",
+        descripcion: item.volumeInfo?.description ?? ""
+    }));
+};
