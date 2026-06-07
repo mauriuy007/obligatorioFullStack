@@ -85,8 +85,8 @@ export const obtenerOpcionesLibros = async (titulo) => {
 
     return data.items.map(item => ({
         titulo: item.volumeInfo?.title ?? "",
-        autor: item.volumeInfo?.authors?.join(", ") ?? "",
-        genero: item.volumeInfo?.categories?.[0] ?? "",
-        descripcion: item.volumeInfo?.description ?? ""
+        autor: item.volumeInfo?.authors?.join(", ") ?? "Autor desconocido",
+        genero: item.volumeInfo?.categories?.[0] ?? "Sin género",
+        descripcion: item.volumeInfo?.description ?? "Sin descripción"
     }));
 };
