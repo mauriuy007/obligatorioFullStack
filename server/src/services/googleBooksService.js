@@ -87,6 +87,6 @@ export const obtenerOpcionesLibros = async (titulo) => {
         titulo: item.volumeInfo?.title ?? "",
         autor: item.volumeInfo?.authors?.join(", ") ?? "Autor desconocido",
         genero: item.volumeInfo?.categories?.[0] ?? "Sin género",
-        descripcion: item.volumeInfo?.description ?? ""
+        descripcion: item.volumeInfo?.description?.slice(30,1000) ?? ""
     }));
 };
