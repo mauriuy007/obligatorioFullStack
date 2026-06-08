@@ -18,7 +18,7 @@ export const crearLibroService = async ({ titulo, autor, genero, descripcion, es
         titulo,
         autor: autor || autorGoogleBooks || "Autor desconocido",
         genero: genero || generoGoogleBooks || "Sin genero",
-        descripcion: descripcion || descGoogleBooks || "Sin descripcion",
+        descripcion: descripcion || descGoogleBooks,
         estado: estado|| "Pendiente" ,
         idUsuario
     };

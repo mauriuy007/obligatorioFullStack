@@ -45,7 +45,7 @@ export const obtenerLibroPorNombre = async (nombreLibro) => {
         title: volume.volumeInfo?.title ?? null,
         authors: volume.volumeInfo?.authors ?? [],
         publishedDate: volume.volumeInfo?.publishedDate ?? null,
-        description: volume.volumeInfo?.description ?? null,
+        description: volume.volumeInfo?.description?.slice(30,1000) ?? null,
         pageCount: volume.volumeInfo?.pageCount ?? null,
         categories: volume.volumeInfo?.categories ?? [],
         imageLinks: volume.volumeInfo?.imageLinks ?? {},
