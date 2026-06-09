@@ -56,7 +56,7 @@ export const obtenerReviewsService = async(limite, pagina, idUsu) => {
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limite);
-        return { reviews, limite, total, totalPaginas: Math.ceil(total/limite) }
+        return { reviews: reviews.map(reviewDto), limite, total, totalPaginas: Math.ceil(total/limite) }
     }catch(error){
         throw new ReviewNotFoundError();
     }
@@ -84,7 +84,7 @@ export const obtenerReviewPorLibro = async (idLibro, idUsu, limite, pagina, rati
         .skip(skip)
         .limit(limite);
 
-        return { reviews, limite, total, totalPaginas: Math.ceil(total/limite) }
+        return { reviews: reviews.map(reviewDto), limite, total, totalPaginas: Math.ceil(total/limite) }
     }catch (error){
         throw new ReviewNotFoundError();
     }
