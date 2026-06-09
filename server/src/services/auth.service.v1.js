@@ -12,7 +12,7 @@ const loginUsuario = async ({ nombreUsuario, contrasena }) => {
         const contraValida = await bcrypt.compare(contrasena, usuario.contrasena)
         if(contraValida){
             const token = jwt.sign(
-                { idUsu: usuario._id, rolUsu: usuario.rol, planUsu: usuario.plan},
+                { idUsu: usuario._id, rolUsu: usuario.rol, planUsu: usuario.plan, nombreUsu: usuario.nombreUsuario},
                 process.env.JWT_SECRET_KEY,
                 { expiresIn: "1h" }
             )
