@@ -1,3 +1,4 @@
+import { reviewDto } from "../dtos/review.dto.js";
 import { NoImageError } from "../errors/image.not.sent.error.js";
 import { MissingLimitPageError } from "../errors/limit.page.error.js";
 import { WrongFileTypeError } from "../errors/wrong.file.type.error.js";
@@ -66,7 +67,7 @@ export const agregarImagenReview = async (req, res) => {
         const idUsu = req.idUsuario;
         const review = await agregarImagen(img, reviewId, idUsu);
 
-        res.status(200).json(review);
+        res.status(200).json(reviewDto(review));
     } catch (error) {
         console.log(error);
         res.status(error.code || 500).json({ error: error.message });
