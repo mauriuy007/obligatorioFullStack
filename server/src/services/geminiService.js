@@ -18,8 +18,9 @@ export async function sugerirLibro(infoLibro) {
         - Do NOT suggest books that are too similar or from the same author
         - Do NOT suggest books that are too different or from a completely different genre
 
-        Return only the names of the books each of them separated by a /.
-        BookData:
+        Return the name of the book you recommend followed by a backslash and then a brief description.
+        Format: BookName\Description
+        Example: The Great Gatsby\A story about wealth and the American Dream in the 1920s.
         ${infoLibro}
         `
   });

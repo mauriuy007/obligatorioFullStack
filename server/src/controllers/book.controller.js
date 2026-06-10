@@ -3,6 +3,7 @@ import {
     crearLibroService, obtenerLibrosService, obtenerLibrosPorIdService,
     actualizarLibro, eliminarLibroService, generarRecomendacion, contadorLibrosPorUsuario, obtenerOpcionesService
 } from "../services/book.service.v1.js";
+import { obtenerLibroPorNombre } from "../services/googleBooksService.js";
 import { obtenerUsuarioPorId } from "../services/user.service.v1.js"
 import { MissingLimitPageError } from "../errors/limit.page.error.js"
 
@@ -98,8 +99,15 @@ export const sugerirLibros = async (req, res) => {
     try {
         const idUsu = req.idUsuario;
         const idLibro = req.params.id;
-        const recomendaciones = await generarRecomendacion(idUsu, idLibro);
-        res.status(200).json({ sugerencia: recomendaciones });
+        const recomendacion = await generarRecomendacion(idUsu, idLibro);
+        const nombreLibro = recomendacion.split('\\')
+        const datosGoogleLibro = await obtenerLibroPorNombre(nombreLibro);
+        const imagenLibro = datosGoogleLibro.imageLinks;
+        res.status(200).json(
+            { sugerencia: nombreLibro,
+              imagenURL: imagenLibro
+             });
+        
     }
     catch (error) {
         res.status(error.code || 500).json({ error: error.message || "Error del lado del servidor" });
