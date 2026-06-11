@@ -5,7 +5,7 @@ const obtenerAi = () => new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function sugerirLibro(infoLibro) {
   const ai = obtenerAi();
   const respuesta = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.0-flash",
     contents: `
         You are an expert literary reviewer.
 
@@ -21,7 +21,7 @@ export async function sugerirLibro(infoLibro) {
         Return the name of the book you recommend followed by a backslash and then a brief description.
         Format: BookName\Description
         Example: The Great Gatsby\A story about wealth and the American Dream in the 1920s.
-        ${infoLibro}
+        ${JSON.stringify({ titulo: infoLibro.titulo, autor: infoLibro.autor, genero: infoLibro.genero, descripcion: infoLibro.descripcion })}
         `
   });
   return respuesta.text;

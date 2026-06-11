@@ -101,8 +101,8 @@ export const sugerirLibros = async (req, res) => {
         const idLibro = req.params.id;
         const recomendacion = await generarRecomendacion(idUsu, idLibro);
         const nombreLibro = recomendacion.split('\\')
-        const datosGoogleLibro = await obtenerLibroPorNombre(nombreLibro);
-        const imagenLibro = datosGoogleLibro.imageLinks;
+        const datosGoogleLibro = await obtenerLibroPorNombre(nombreLibro[0].trim());
+        const imagenLibro = datosGoogleLibro?.imageLinks ?? null;
         res.status(200).json(
             { sugerencia: nombreLibro,
               imagenURL: imagenLibro
