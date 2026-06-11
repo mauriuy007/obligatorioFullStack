@@ -53,6 +53,10 @@ export const obtenerEstadisticasUsuarioService = async (idUsu) => {
 };
 
 export const obtenerEstadisticasAdminService = async () => {
-    const totalUsuarios = await Usuario.countDocuments();
-    return { totalUsuarios };
+    const [totalUsuarios, totalLibros, totalLibrosLeidos] = await Promise.all([
+        Usuario.countDocuments(),
+        Libro.countDocuments(),
+        Libro.countDocuments({ estado: "Leido" }),
+    ]);
+    return { totalUsuarios, totalLibros, totalLibrosLeidos };
 };

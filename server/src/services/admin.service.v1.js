@@ -52,9 +52,8 @@ export const obtenerUsuariosService = async (limite, pagina) => {
     const skip = (pagina -1)*limite
 
     try{
-        const usuariosTodos = await Usuario.find({
-            rol : "Usuario"
-        })
+        const usuariosTodos = await Usuario.find({ rol: "Usuario" })
+        .select('-contrasena')
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limite);
