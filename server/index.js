@@ -17,7 +17,9 @@ const port = process.env.PORT || 3000;
 const host = "localhost";
 
 app.use(cors({
-  origin: "http://localhost:5173"
+  origin: ["http://localhost:5173",
+    "https://obligatorio-fullstack2.vercel.app"
+  ]
 }));
 
 app.use(express.json());
